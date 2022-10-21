@@ -13,7 +13,42 @@
         <div class="">
           <div class="card signin shadow-lg">
             <div class="card-body p-5">
-                TODO: Create new account page
+
+              <form id="login-form" class="needs-validation" novalidate>
+                <img class="mt-4" src="https://cdn-icons-png.flaticon.com/512/1549/1549353.png" height="100" alt="Haybal Company Logo">
+                <h1 class="h3 mb-3">Create Haybal Account</h1>
+                
+                <div>
+                  <label for="emailAddress" class="visually-hidden">Email Address</label>
+                  <input type="email" id="emailAddress" placeholder="Email Address" class="form-control mb-3" required autofocus>
+                  <div class="invalid-feedback">
+                    Please enter a valid email address.
+                  </div>
+                </div>
+
+                <div>
+                  <label for="password" class="visually-hidden">Password</label>
+                  <input type="password" id="password" placeholder="Password" class="form-control" required autofocus>
+                  <div class="invalid-feedback">
+                    Password is required.
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <label for="password" class="visually-hidden">Confirm Password</label>
+                  <input type="password" id="confirmpassword" placeholder="Confirm Password" class="form-control" required autofocus>
+                  <div class="invalid-feedback">
+                    Password is required.
+                  </div>
+                </div>
+
+                <div class="row">
+                  <button type="button" id="register" class="btn btn-secondary mt-3" autofocus>Create Account</button>
+                  <button type="button" id="reset" class="btn btn-link mt-3" autofocus>Return to Login</button>
+                </div>
+
+
+              </form>
             </div>
           </div>
         </div>

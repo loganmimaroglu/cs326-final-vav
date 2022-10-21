@@ -23,3 +23,7 @@
     function checkValidity() {
 
     }
+
+    document.getElementById("reset").onclick = function () {
+        window.location = "index.html";
+    };

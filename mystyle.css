@@ -1,0 +1,29 @@
+.btn-secondary {
+    color: #ffffff;
+    background-color: #4dc01b;
+    border-color: #4dc01b;
+}
+
+.btn-secondary:hover,.btn-secondary:focus {
+    color: #ffffff;
+    background-color: #4aad1f;
+    border-color: #4aad1f;
+}
+
+.btn-secondary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+}
+
+input[type='email']:focus::-webkit-input-placeholder {
+    opacity: .5;
+}
+
+input[type='password']:focus::-webkit-input-placeholder {
+    opacity: .5;
+}
+
+.signin {
+	max-width:450px;
+    margin:auto;
+    text-align: center;
+}

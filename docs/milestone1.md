@@ -10,7 +10,10 @@ Our wireframes were designed using whimscal and can be found at [here](https://w
 
 ### Login Page
 
+![Login Page Markdown](./img/login.jpg)
+
 ### Overview
+
 
 ### Single Plant View
 

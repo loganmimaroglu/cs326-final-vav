@@ -10,15 +10,34 @@ Our wireframes were designed using whimscal and can be found at [here](https://w
 
 ### Login Page
 
-![Login Page Markdown](./img/login.jpg)
+The login page which will also be the landing page for unauthenticated users.
+![Login Page Wireframe](./img/login.jpg)
 
+If you fail to login you will be presented with an error message.
+![Failed Login Page Wireframe](./img/failed_login.jpg)
+
+If you do not have an account and click register.
+![Registration Page Wireframe](./img/register.jpg)
+
+If you forgot your password.
+![Forgot Password Page Wireframe](./img/forogt.jpg)
+
+If your email is validated when you forgot password, the link you get to reset your password will take you to the following page.
+![Reset Password Page Wireframe](./img/reset.jpg)
 ### Overview
 
+Once you authenticate you will see an overview of the crops you have already added. The x-axis is date and y-axis is estimated profit based on estimated yield.
+![Overview Page Wireframe](./img/overview.jpg)
 
 ### Single Plant View
 
+If you want to inspect an individual plant the x-axis will remain date but the y-axis will be estimated yield.
+![Individual Plant Page Wireframe](./img/individual_plant.jpg)
+
 ### Adding a single plant
 
+If you want to add a plant this is the page you will see.
+![Add Plant Page Wireframe](./img/add_plant.jpg)
 
 ## HTML & CSS Mockup
 

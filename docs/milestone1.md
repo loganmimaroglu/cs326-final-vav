@@ -20,7 +20,7 @@ If you do not have an account and click register.
 ![Registration Page Wireframe](./img/register.jpg)
 
 If you forgot your password.
-![Forgot Password Page Wireframe](./img/forogt.jpg)
+![Forgot Password Page Wireframe](./img/forgot.jpg)
 
 If your email is validated when you forgot password, the link you get to reset your password will take you to the following page.
 ![Reset Password Page Wireframe](./img/reset.jpg)

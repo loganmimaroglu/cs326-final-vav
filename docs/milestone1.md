@@ -41,6 +41,18 @@ If you want to add a plant this is the page you will see.
 
 ## HTML & CSS Mockup
 
+The login page which will also be the landing page for unauthenticated users.
+![Login Page HTML](./img/login_html.png)
+
+If you do not have an account and click register.
+![Registration Page HTML](./img/register_html.png)
+
+If you forgot your password.
+![Forgot Password Page HTML](./img/forgot_html.jpg)
+
+If your email is validated when you forgot password, the link you get to reset your password will take you to the following page.
+![Reset Password Page HTML](./img/reset_html.jpg)
+
 ## Breakdown of Division of Labor
 
 ### Logan Mimaroglu

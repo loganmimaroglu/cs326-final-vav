@@ -48,10 +48,10 @@ If you do not have an account and click register.
 ![Registration Page HTML](./img/register_html.png)
 
 If you forgot your password.
-![Forgot Password Page HTML](./img/forgot_html.jpg)
+![Forgot Password Page HTML](./img/forgot_html.png)
 
 If your email is validated when you forgot password, the link you get to reset your password will take you to the following page.
-![Reset Password Page HTML](./img/reset_html.jpg)
+![Reset Password Page HTML](./img/reset_html.png)
 
 ## Breakdown of Division of Labor
 

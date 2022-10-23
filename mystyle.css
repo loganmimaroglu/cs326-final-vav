@@ -27,3 +27,16 @@ input[type='password']:focus::-webkit-input-placeholder {
     margin:auto;
     text-align: center;
 }
+
+.nav-pills .pill-1 .nav-link:not(.active) {
+    background-color: white;
+    color: rgb(59, 73, 88);
+    border: 0px;
+}
+
+.nav-pills .pill-1 .nav-link {
+    background-color: white;
+    border-left: 5px outset rgb(30, 160, 141);
+    border-radius: 0px;
+    color: rgb(30, 160, 141);
+}

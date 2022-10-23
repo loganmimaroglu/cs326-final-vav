@@ -39,3 +39,5 @@ input[type='password']:focus::-webkit-input-placeholder {
     border-radius: 0px;
     color: rgb(30, 160, 141);
 }
+
+.greeniconcolor {color:rgb(30, 160, 141);}

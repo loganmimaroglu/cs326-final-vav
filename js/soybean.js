@@ -20,20 +20,20 @@
           'Jul'
         ],
         datasets: [{
-          label: 'Wheat',
-          data: [
-            200,
-            450,
-            900,
-            800,
-            400,
-            300,
-            100
-          ],
-          lineTension: .3,
-          backgroundColor: 'transparent',
-          borderColor: '#8fa01e',
-        }]
+            label: 'Soybeans',
+            data: [
+              200,
+              400,
+              800,
+              1000,
+              800,
+              600,
+              100
+            ],
+            lineTension: .3,
+            backgroundColor: 'transparent',
+            borderColor: '#1ea08d',
+          }]
       },
       options: {
         plugins: {

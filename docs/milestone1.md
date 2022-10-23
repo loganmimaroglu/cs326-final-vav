@@ -53,10 +53,14 @@ If you forgot your password.
 If your email is validated when you forgot password, the link you get to reset your password will take you to the following page.
 ![Reset Password Page HTML](./img/reset_html.png)
 
+The overview dashboard that you will see after you log in.
+![Overview Dashboard Page HTML](./img/overview_html.jpg)
+
 ## Breakdown of Division of Labor
 
 ### Logan Mimaroglu
-TODO
+
+I was responsible for the creation of the `dashboard.html` and `index.html` files. I worked with the rest of the team to create the Wireframe for the website.
 
 ### Stephen Lee
 TODO

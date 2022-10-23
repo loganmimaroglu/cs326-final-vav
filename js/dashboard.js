@@ -33,7 +33,39 @@
         lineTension: .3,
         backgroundColor: 'transparent',
         borderColor: '#1ea08d',
-      }]
+      },
+      {
+        label: 'Carrots',
+        data: [
+          200,
+          250,
+          600,
+          950,
+          900,
+          700,
+          300
+        ],
+        lineTension: .3,
+        backgroundColor: 'transparent',
+        borderColor: '#a0541e',
+      },
+      {
+        label: 'Wheat',
+        data: [
+          200,
+          450,
+          900,
+          800,
+          400,
+          300,
+          100
+        ],
+        lineTension: .3,
+        backgroundColor: 'transparent',
+        borderColor: '#8fa01e',
+      }
+    ]
+      
     },
     options: {
       plugins: {

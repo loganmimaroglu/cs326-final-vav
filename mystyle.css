@@ -29,7 +29,6 @@ input[type='password']:focus::-webkit-input-placeholder {
 }
 
 .nav-pills .pill-1 .nav-link:not(.active) {
-    background-color: white;
     color: rgb(59, 73, 88);
     border: 0px;
 }

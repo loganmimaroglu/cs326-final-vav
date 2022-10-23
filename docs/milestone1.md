@@ -56,6 +56,9 @@ If your email is validated when you forgot password, the link you get to reset y
 The overview dashboard that you will see after you log in.
 ![Overview Dashboard Page HTML](./img/overview_html.jpg)
 
+The single plant view page, with wheat selected.
+![Single Plant View Wheat Page HTML](./img/wheat_html.png)
+
 ## Breakdown of Division of Labor
 
 ### Logan Mimaroglu
@@ -66,4 +69,8 @@ I was responsible for the creation of the `dashboard.html` and `index.html` file
 TODO
 
 ### Justin Szymanski
-TODO
+
+- Worked with the rest of the team to create the project Wireframe.
+- Implemented the create account page (`register.html` and `register.js`).
+- Implemented the single plant view page for Wheat (`wheat.html` and `wheat.js`).
+- Added sidebar connectivity to swap between pages.

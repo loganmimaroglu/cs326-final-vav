@@ -58,12 +58,14 @@ The overview dashboard that you will see after you log in.
 
 ## Breakdown of Division of Labor
 
+we used a private slack channel to communicate, we also met in person at the library
+
 ### Logan Mimaroglu
 
 I was responsible for the creation of the `dashboard.html` and `index.html` files. I worked with the rest of the team to create the Wireframe for the website.
 
 ### Stephen Lee
-TODO
+I added the `forgot.html`, `password.html` and `reset.html`  based on `index.html`, and added `carrot.html` and `soybean.html` based on `dashboard.html`
 
 ### Justin Szymanski
 TODO

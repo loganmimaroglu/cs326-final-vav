@@ -23,12 +23,12 @@
           label: 'Wheat',
           data: [
             200,
+            450,
+            900,
+            800,
             400,
             300,
-            600,
-            800,
-            600,
-            200
+            100
           ],
           lineTension: .3,
           backgroundColor: 'transparent',

@@ -32,7 +32,7 @@
           ],
           lineTension: .3,
           backgroundColor: 'transparent',
-          borderColor: '#8fce00',
+          borderColor: '#8fa01e',
         }]
       },
       options: {

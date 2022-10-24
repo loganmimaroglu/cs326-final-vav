@@ -69,9 +69,7 @@ I was responsible for the creation of the `dashboard.html` and `index.html` file
 
 ### Stephen Lee
 
-Worked with the rest of the team to create the project Wireframe.
-implemented forgotten password flow of `forgot.html`, `password.html`, `reset.html`
-implemented single plant views `carrot.html`, `soybean.html`
+Worked with the rest of the team to create the project Wireframe. Implemented forgotten password flow of `forgot.html`, `password.html`, `reset.html`. Implemented single plant views `carrot.html`, `soybean.html`
 
 ### Justin Szymanski
 

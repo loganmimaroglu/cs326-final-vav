@@ -65,7 +65,7 @@ we used a private slack channel to communicate, we also met in person at the lib
 
 ### Logan Mimaroglu
 
-I was responsible for the creation of the `dashboard.html` and `index.html` files. I worked with the rest of the team to create the Wireframe for the website.
+I was responsible for the creation of the `dashboard.html` and `index.html` files as well as there corresponding JavaScript files, `dashboard.js` and `login.js`. I also created a the CSS styling `mystyle.css`. I worked with the rest of the team to create the Wireframe for the website.
 
 ### Stephen Lee
 

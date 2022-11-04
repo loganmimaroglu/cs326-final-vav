@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
     const isValid = true;
 
     if (isValid) {
-        users.push({ emailAddress: req.body.emailAddress, password: req.body.password });
+        users.push({ emailAddress: req.body.emailAddress, password: req.body.password, crops: [] });
         res.redirect(`/users/${users.length - 1}`);
     } else {
         console.log('error creating new user');
@@ -27,8 +27,9 @@ router.post('/', (req, res) => {
 router
     .route('/:id')
     .get((req, res) => {
-        console.log(req.user);
-        res.render('users/dashboard');
+        res.render('users/dashboard', { 'user': req.user });
+
+        // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })
     .put((req, res) => {
         res.send(`Update User With ID ${req.params.id}`);
@@ -37,7 +38,7 @@ router
         res.send(`Delete User With ID ${req.params.id}`);
     });
 
-const users = [];
+const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcer: 30, acers: 1 }] } ];
 router.param('id', (req, res, next, id) => {
     req.user = users[id];
     next();

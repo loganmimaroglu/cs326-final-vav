@@ -31,16 +31,24 @@ router
 
         // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })
-    .put((req, res) => {
-        res.send(`Update User With ID ${req.params.id}`);
+    .post((req, res) => {
+        const newCrop = {type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
+        users[req.id].crops.push(newCrop);
+        res.redirect(`/users/${req.id}`);
     })
     .delete((req, res) => {
         res.send(`Delete User With ID ${req.params.id}`);
     });
 
-const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcer: 30, acers: 1 }] } ];
+router.get('/:id/add-plant', (req, res) => {
+    res.render('users/add-plant', { 'user': req.user, 'id': req.params.id });
+});
+
+const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
 router.param('id', (req, res, next, id) => {
     req.user = users[id];
+    req.id = id;
+    console.log(users[id].crops);
     next();
 });
 

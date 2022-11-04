@@ -29,5 +29,5 @@ document.getElementById("reset").onclick = function () {
 };
 
 document.getElementById("register").onclick = function () {
-    window.location = "register.html";
+    window.location = "users/new";
 };

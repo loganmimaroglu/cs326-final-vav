@@ -27,7 +27,8 @@ router.post('/', (req, res) => {
 router
     .route('/:id')
     .get((req, res) => {
-        res.render('users/dashboard', { 'user': req.user });
+        res.render('users/dashboard', { 'user': req.user, 'crop': req.query.crop });
+        //console.log(req.query.crop)
 
         // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })
@@ -60,6 +61,10 @@ router.get('/:id/add-plant', (req, res) => {
 
 router.get('/:id/remove-plant', (req, res) => {
     res.render('users/remove-plant', { 'user': req.user, 'id': req.params.id });
+});
+
+router.get('/:id/carrot', (req, res) => {
+    res.render('users/carrot', { 'user': req.user })
 });
 
 const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];

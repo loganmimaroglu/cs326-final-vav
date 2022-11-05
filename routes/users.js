@@ -44,6 +44,10 @@ router.get('/:id/add-plant', (req, res) => {
     res.render('users/add-plant', { 'user': req.user, 'id': req.params.id });
 });
 
+router.get('/:id/carrot', (req, res) => {
+    res.render('users/carrot', { 'user': req.user })
+})
+
 const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
 router.param('id', (req, res, next, id) => {
     req.user = users[id];

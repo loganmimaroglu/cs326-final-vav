@@ -37,12 +37,17 @@
                             <span class="d-none d-sm-inline mx-1"><%= locals.user.emailAddress || "My Account" %> </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                            <li><a class="dropdown-item" href="#">Add plant</a></li>
+                            <li>
+                              <% const refString = "/users/" + locals.id + "/add-plant"; %>
+                              <a class="dropdown-item" href="<%= refString %>">Add plant</a>                            
+                            </li>
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            <li>
+                              <a class="dropdown-item" href="/">Sign out</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

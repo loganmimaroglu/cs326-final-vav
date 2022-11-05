@@ -32,7 +32,7 @@ router
         // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })
     .post((req, res) => {
-        const newCrop = {type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
+        const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
         users[req.id].crops.push(newCrop);
         res.redirect(`/users/${req.id}`);
     })
@@ -48,7 +48,6 @@ const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [
 router.param('id', (req, res, next, id) => {
     req.user = users[id];
     req.id = id;
-    console.log(users[id].crops);
     next();
 });
 

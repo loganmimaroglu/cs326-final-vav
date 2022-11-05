@@ -27,7 +27,8 @@ router.post('/', (req, res) => {
 router
     .route('/:id')
     .get((req, res) => {
-        res.render('users/dashboard', { 'user': req.user });
+        res.render('users/dashboard', { 'user': req.user, 'crop': req.query.crop });
+        //console.log(req.query.crop)
 
         // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })

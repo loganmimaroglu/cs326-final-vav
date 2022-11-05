@@ -20,11 +20,11 @@
 
                     <ul class="nav nav-pills mb-sm-auto px-3 pb-5 flex-column">
                         <li class="nav-item pill-1 pb-5">
-                            <a class="nav-link active" href="dashboard.html">Overview</a>
+                            <a class="nav-link" href="http://localhost:3000/users/0">Overview</a>
                         </li>
                         <li class="nav-item pill-1">
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
-                            <a class="nav-link" href="soybean.html"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
+                            <a class="nav-link" href="http://localhost:3000/users/0?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
                             <% } %>
                   
                         </li>
@@ -90,7 +90,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/javascript/<%= locals.crop %>.js"></script>
+    <script src="/javascript/<%= locals.crop || "dashboard" %>.js"></script>
     
   </body>
 </html>

@@ -49,7 +49,7 @@ router.get('/:id/carrot', (req, res) => {
     res.render('users/carrot', { 'user': req.user })
 })
 
-const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
+const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'wheat', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'soybean', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'carrot', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
 router.param('id', (req, res, next, id) => {
     req.user = users[id];
     req.id = id;

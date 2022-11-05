@@ -32,16 +32,34 @@ router
         // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
     })
     .post((req, res) => {
-        const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
-        users[req.id].crops.push(newCrop);
-        res.redirect(`/users/${req.id}`);
+        console.log(req.body);
+        if ("add" in req.body) {
+            const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
+            users[req.id].crops.push(newCrop);
+            console.log(users[req.id].crops);
+            res.redirect(`/users/${req.id}`);
+        } else if ("remove" in req.body) {
+            users[req.id].crops = users[req.id].crops.filter(function(obj) {
+                return obj.type !== req.body.plantType;
+            });
+            console.log(users[req.id].crops);
+            res.redirect(`/users/${req.id}`);
+        }
     })
     .delete((req, res) => {
-        res.send(`Delete User With ID ${req.params.id}`);
+        users[req.id].crops = users[req.id].crops.filter((obj) => {
+            obj.plantType !== req.body.plantType;
+        })
+        console.log(users[req.id].crops);
+        res.redirect(`/users/${req.id}`);
     });
 
 router.get('/:id/add-plant', (req, res) => {
     res.render('users/add-plant', { 'user': req.user, 'id': req.params.id });
+});
+
+router.get('/:id/remove-plant', (req, res) => {
+    res.render('users/remove-plant', { 'user': req.user, 'id': req.params.id });
 });
 
 const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'corn', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];

@@ -27,10 +27,14 @@ router.post('/', (req, res) => {
 router
     .route('/:id')
     .get((req, res) => {
-        res.render('users/dashboard', { 'user': req.user, 'crop': req.query.crop });
-        //console.log(req.query.crop)
+        let renderCrops = req.user.crops;
 
-        // req.query.crop will give you corn for the request localhost:3000/users/5?crop=corn
+        if (req.query.crop !== undefined) {
+            renderCrops = renderCrops.filter((e) =>  e.type === req.query.crop);
+        }
+
+        res.render('users/dashboard', { 'user': req.user, 'renderCrops': renderCrops});
+
     })
     .post((req, res) => {
         console.log(req.body);
@@ -39,7 +43,7 @@ router
             users[req.id].crops.push(newCrop);
             console.log(users[req.id].crops);
             res.redirect(`/users/${req.id}`);
-        } else if ("remove" in req.body) {
+        } else if ('remove' in req.body) {
             users[req.id].crops = users[req.id].crops.filter(function(obj) {
                 return obj.type !== req.body.plantType;
             });

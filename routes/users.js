@@ -33,30 +33,21 @@ router
             renderCrops = renderCrops.filter((e) =>  e.type === req.query.crop);
         }
 
-        res.render('users/dashboard', { 'user': req.user, 'renderCrops': renderCrops});
+        res.render('users/dashboard', { 'user': req.user, 'id': req.id, 'renderCrops': renderCrops});
 
     })
     .post((req, res) => {
         console.log(req.body);
-        if ("add" in req.body) {
+        if ('add' in req.body) {
             const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
             users[req.id].crops.push(newCrop);
-            console.log(users[req.id].crops);
-            res.redirect(`/users/${req.id}`);
-        } else if ('remove' in req.body) {
-            users[req.id].crops = users[req.id].crops.filter(function(obj) {
-                return obj.type !== req.body.plantType;
-            });
             console.log(users[req.id].crops);
             res.redirect(`/users/${req.id}`);
         }
     })
     .delete((req, res) => {
-        users[req.id].crops = users[req.id].crops.filter((obj) => {
-            obj.plantType !== req.body.plantType;
-        })
-        console.log(users[req.id].crops);
-        res.redirect(`/users/${req.id}`);
+        users[req.id].crops = users[req.id].crops.filter((e) => req.query.crop !== e.type);
+        res.redirect(303, `/users/${req.id}`);
     });
 
 router.get('/:id/add-plant', (req, res) => {
@@ -68,7 +59,7 @@ router.get('/:id/remove-plant', (req, res) => {
 });
 
 router.get('/:id/carrot', (req, res) => {
-    res.render('users/carrot', { 'user': req.user })
+    res.render('users/carrot', { 'user': req.user });
 });
 
 const users = [ { emailAddress: 'logan@test.com', password: 'password', crops: [{ type: 'carrot', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'wheat', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'soybean', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];

@@ -29,9 +29,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const colors = ['#00FFFF', '#00FF00', '#FF00FF', '#FFFF00', '#FF0000'];
 
-    // confirm it says application/json
-    console.log(req.header('Content-Type'));
-
     // confirm we are recieving a json object
     if (req.header('Content-Type') !== 'application/json') {
         res.status(500).send('NOT JSON OBJ');

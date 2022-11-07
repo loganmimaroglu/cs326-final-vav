@@ -1,6 +1,7 @@
 {
   "name": "haybal",
   "scripts": {
+    "start": "node server.js",
     "devStart": "nodemon server.js"
   },
   "dependencies": {

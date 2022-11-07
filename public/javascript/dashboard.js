@@ -1,6 +1,6 @@
 async function deleteData(id, item) {
 
-    await fetch('http://localhost:3000/users/' + id + '?crop=' + item, {
+    await fetch(window.location.origin + '/users/' + id + '?crop=' + item, {
         method: 'DELETE',
     });
 

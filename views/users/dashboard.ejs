@@ -20,11 +20,11 @@
 
                     <ul class="nav nav-pills mb-sm-auto px-3 pb-5 flex-column">
                         <li class="nav-item pill-1 pb-5">
-                            <a class="nav-link" href="http://localhost:3000/users/0">Overview</a>
+                            <a class="nav-link <%- locals.page === 'dashboard' ? 'active' : ''%>" href="http://localhost:3000/users/0">Overview</a>
                         </li>
                         <li class="nav-item pill-1">
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
-                            <a class="nav-link" href="http://localhost:3000/users/0?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
+                            <a class="nav-link <%- locals.page === locals.user.crops[i].type ? 'active' : ''%>" href="http://localhost:3000/users/0?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
                             <% } %>
 
                         </li>

@@ -28,12 +28,19 @@ router
     .route('/:id')
     .get((req, res) => {
         let renderCrops = req.user.crops;
+        let page = '';
 
         if (req.query.crop !== undefined) {
             renderCrops = renderCrops.filter((e) =>  e.type === req.query.crop);
         }
 
-        res.render('users/dashboard', { 'user': req.user, 'id': req.id, 'renderCrops': renderCrops});
+        if (req.query.crop === undefined) {
+            page = 'dashboard';
+        } else {
+            page = renderCrops[0].type;
+        }
+
+        res.render('users/dashboard', { 'user': req.user, 'id': req.id, 'renderCrops': renderCrops, 'page': page});
 
     })
     .post((req, res) => {

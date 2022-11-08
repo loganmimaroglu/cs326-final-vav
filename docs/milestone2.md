@@ -6,13 +6,17 @@ TODO
 
 ## Front-end Implementation
 
-Creation of a new user ![New user page](./img/create.jpg)
+- CREATE
+The create account page adds a new enrty in the form of a user. ![New user page](./img/create.jpg)
 
-Reading data to form a graph ![Graph data](./img/read.jpg)
+- READ
+The data used to form the graph is retrieved from existing enteries. ![Graph data](./img/read.jpg)
 
-Updating data by adding another plant ![add plant](./img/update.jpg)
+- UPDATE
+The add plant button leads to a page where you can page that adds plants to existing users.  ![add plant](./img/update.jpg) ![new plant](./img/update_plant.jpg)
 
-Deleting data by removing a plant ![remove plant](./img/delete.jpg)
+- DELETE
+Delete button allows users to remove plants ![remove plant](./img/delete.jpg)
 
 ## Deployment
 

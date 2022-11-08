@@ -6,17 +6,17 @@ TODO
 
 ## Front-end Implementation
 
-Creation of a new user [New user page](./img/create.jpg)
+Creation of a new user ![New user page](./img/create.jpg)
 
-Reading data to form a graph [Graph data](./img/read.jpg)
+Reading data to form a graph ![Graph data](./img/read.jpg)
 
-Updating data by adding another plan [add plant](./img/update.jpg)
+Updating data by adding another plan ![add plant](./img/update.jpg)
 
-Deleting data by removing a plant [remove plant](./img/delete.jpg)
+Deleting data by removing a plant ![remove plant](./img/delete.jpg)
 
 ## Deployment
 
-Website live [here] (https://haybale.herokuapp.com/)
+Website link https://haybale.herokuapp.com/
 
 ## Breakdown of Division of Labor
 

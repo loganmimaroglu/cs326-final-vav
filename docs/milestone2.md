@@ -20,9 +20,9 @@ Delete button allows users to remove plants ![remove plant](./img/delete.jpg)
 
 ## Deployment
 
-Website link https://haybale.herokuapp.com/
-test email: farmer@test.com
-test password: password
+Website link https://haybale.herokuapp.com/ <br />
+test email: farmer@test.com <br />
+test password: password <br />
 
 ## Breakdown of Division of Labor
 

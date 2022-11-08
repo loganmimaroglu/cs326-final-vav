@@ -10,7 +10,7 @@ Creation of a new user ![New user page](./img/create.jpg)
 
 Reading data to form a graph ![Graph data](./img/read.jpg)
 
-Updating data by adding another plan ![add plant](./img/update.jpg)
+Updating data by adding another plant ![add plant](./img/update.jpg)
 
 Deleting data by removing a plant ![remove plant](./img/delete.jpg)
 

@@ -41,6 +41,7 @@ we used a private slack channel to communicate, we also met in person at the lib
 ### Logan Mimaroglu
 TODO
 ### Stephen Lee
-TODO
+Worked with group to plan out API, implemented `dashboard` sidebar and buttons dynamically, worked on single plant representation.
+
 ### Justin Szymanski
 Added functionality for adding/removing plant views, assisted in linking pages together, completed Project API Planning section of writeup.

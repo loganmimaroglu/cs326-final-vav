@@ -40,11 +40,12 @@ we used a private slack channel to communicate, we also met in person at the lib
 
 ### Logan Mimaroglu
 
-Worked with group to plan out API. Refactored project to express js strategic structure. Implemented Chart API and attached front end to dynamically load returned chart data into graphs. 
+Worked with group to plan out API. Refactored project to express js strategic structure. Implemented Chart API and attached front end to dynamically load returned chart data into graphs using Express JS and EJS templating. Deployed project on Heroku.
 
 ### Stephen Lee
 
-Worked with group to plan out API, implemented `dashboard` sidebar and buttons dynamically, worked on single plant representation.
+Worked with group to plan out API. Implemented the dashboard sidebar to dynamically display all plants a user has attached to their account using express js routing and EJS templating.
 
 ### Justin Szymanski
-Added functionality for adding/removing plant views, assisted in linking pages together, completed Project API Planning section of writeup.
+
+Worked with group to plan out API. Added functionality for adding/removing plant views to a users account using Express JS routing and EJS templating. Fixed page references. Completed technical write-up of the software architecture and API. 

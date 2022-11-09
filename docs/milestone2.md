@@ -39,8 +39,11 @@ test password: password <br />
 we used a private slack channel to communicate, we also met in person at the library
 
 ### Logan Mimaroglu
-TODO
+
+Worked with group to plan out API. Refactored project to express js strategic structure. Implemented Chart API and attached front end to dynamically load returned chart data into graphs. 
+
 ### Stephen Lee
+
 Worked with group to plan out API, implemented `dashboard` sidebar and buttons dynamically, worked on single plant representation.
 
 ### Justin Szymanski

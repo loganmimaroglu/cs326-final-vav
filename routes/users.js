@@ -1,3 +1,5 @@
+const database = require('../database.js');
+
 const express = require('express');
 const router = express.Router();
 
@@ -12,11 +14,10 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
 
-    const isValid = true;
+    const id = database.addUser({ emailAddress: req.body.emailAddress, password: req.body.password });
 
-    if (isValid) {
-        users.push({ emailAddress: req.body.emailAddress, password: req.body.password, crops: [] });
-        res.redirect(`/users/${users.length - 1}`);
+    if (id >= 0) {
+        res.redirect(`/users/${id}`);
     } else {
         console.log('error creating new user');
         res.render('users/new', { emailAddress: req.body.emailAddress, warning: 'Account with email already exists' });
@@ -27,7 +28,7 @@ router.post('/', (req, res) => {
 router
     .route('/:id')
     .get((req, res) => {
-        let renderCrops = req.user.crops;
+        let renderCrops = database.getCrops(req.id);
         let page = '';
 
         if (req.query.crop !== undefined) {
@@ -45,15 +46,14 @@ router
     })
     .post((req, res) => {
         console.log(req.body);
-        if ('add' in req.body) {
-            const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
-            users[req.id].crops.push(newCrop);
-            console.log(users[req.id].crops);
-            res.redirect(`/users/${req.id}`);
-        }
+
+        const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
+        database.addCrop(req.id, newCrop);
+        res.redirect(`/users/${req.id}`);
+
     })
     .delete((req, res) => {
-        users[req.id].crops = users[req.id].crops.filter((e) => req.query.crop !== e.type);
+        database.deleteCrop(req.id, req.query.crop);
         res.redirect(303, `/users/${req.id}`);
     });
 
@@ -69,9 +69,8 @@ router.get('/:id/carrot', (req, res) => {
     res.render('users/carrot', { 'user': req.user });
 });
 
-const users = [ { emailAddress: 'farmer@test.com', password: 'password', crops: [{ type: 'carrot', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'wheat', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'soybean', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
 router.param('id', (req, res, next, id) => {
-    req.user = users[id];
+    req.user = database.getUser(id);
     req.id = id;
     next();
 });

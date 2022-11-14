@@ -36,7 +36,7 @@ function pullDatabase() {
     client.query('SELECT * FROM users;', (err, res) => {
         if (err) throw err;
         for (let row of res.rows) {
-            users.push(row);
+            users.push({ id: row.id, emailAddress: row.email, password: row.password, hash: row.hash, crops: JSON.parse(row.crops) });
         }
     });
 
@@ -59,6 +59,8 @@ function auth(user) {
 
     // Pull from database.
     pullDatabase();
+
+    console.log(users);
 
     // Return index tracker.
     let index = -1;

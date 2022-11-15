@@ -1,4 +1,5 @@
 const database = require('../database.js');
+const bcrypt = require('bcrypt');
 
 const express = require('express');
 const router = express.Router();
@@ -12,16 +13,25 @@ router.get('/new', (req, res) => {
     res.render('users/new');
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
-    const id = database.addUser({ emailAddress: req.body.emailAddress, password: req.body.password });
-
-    if (id >= 0) {
-        res.redirect(`/users/${id}`);
-    } else {
-        console.log('error creating new user');
-        res.render('users/new', { emailAddress: req.body.emailAddress, warning: 'Account with email already exists' });
+    try {
+        const salt = await bcrypt.genSalt()
+        const hashedPass = await bcrypt.hash(req.body.password, salt);
+        const user = { emailAddress: req.body.emailAddress, password: hashedPass };
+        const id = database.addUser(user);
+        if (id >= 0) {
+            res.redirect(`/users/${id}`);
+        } else {
+            console.log('error creating new user');
+            res.render('users/new', { emailAddress: req.body.emailAddress, warning: 'Account with email already exists' });
+        }
+    } catch {
+        res.status(500).send()
     }
+
+
+    
 });
 
 // Dynamic Routes

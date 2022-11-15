@@ -152,7 +152,7 @@ function addCrop(id, crop) {
     const newCrop = { id: crops.length + 1, type: crop.type, growth_stages: 'null', plant_date: crop.plantDate, base_temp: 'null', freeze_temp: 'null', location: 'null' };
 
     // Get the array of crops for the current user.
-    const userCrops = users[id];
+    const userCrops = users[id].crops;
 
     // Add the new crop ID to it.
     userCrops.push(newCrop);
@@ -173,7 +173,7 @@ function addCrop(id, crop) {
 
     // Update record in user database.
     client.connect();
-    client.query('UPDATE users SET crops = ' + JSON.stringify(dbCrops) + ' WHERE id = ' + id + ');', (err, res) => {
+    client.query('UPDATE users SET crops = \'' + JSON.stringify(dbCrops) + '\' WHERE id = ' + id + ';', (err, res) => {
         if (err) throw err;
         client.end();
     });
@@ -198,13 +198,19 @@ function getCrops(id) {
 function deleteCrop(id, crop) {
 
     // Get the users list of crops.
-    let userCrops = JSON.parse(users[id].crops);
+    let userCrops = users[id].crops;
 
     // Remove the crop from the list.
     userCrops = userCrops.filter((e) => e.type !== crop.type);
 
     // Reset the user's crops property.
-    users[id].crops = JSON.stringify(userCrops);
+    users[id].crops = userCrops;
+
+    // Go through userCrops to extract all the ID's for database insertion.
+    const dbCrops = [];
+    for (let c of userCrops) {
+        dbCrops.push(c.id);
+    }
 
     // Create the client.
     const client = new Client({
@@ -216,7 +222,7 @@ function deleteCrop(id, crop) {
 
     // Insert the new data into the users database.
     client.connect();
-    client.query('UPDATE users SET crops = ' + JSON.stringify(userCrops) + ' WHERE id = ' + id + ');', (err, res) => {
+    client.query('UPDATE users SET crops = \'' + JSON.stringify(dbCrops) + '\' WHERE id = ' + id + ';', (err, res) => {
         if (err) throw err;
         client.end();
     });

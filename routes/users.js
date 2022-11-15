@@ -51,14 +51,10 @@ router
             page = renderCrops[0].type;
         }
 
-        console.log(req.user);
-
         res.render('users/dashboard', { 'user': req.user, 'id': req.id, 'renderCrops': renderCrops, 'page': page});
 
     })
     .post((req, res) => {
-        console.log(req.body);
-
         const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
         database.addCrop(req.id, newCrop);
         res.redirect(`/users/${req.id}`);

@@ -63,6 +63,12 @@ function pullDatabase() {
                 u.crops.push(newCrop);
             }
         }
+        users.sort(function(a, b) {
+            return a.id - b.id;
+        });
+        crops.sort(function(a, b) {
+            return a.id - b.id;
+        });
         client.end();
     });
 
@@ -101,7 +107,7 @@ function addUser(user) {
     let isValid = true;
 
     // Set properties of user for database insertion.
-    user.id = users.length + 1;
+    user.id = users.length;
     user.hash = 'null';
     user.crops = [];
 
@@ -117,14 +123,14 @@ function addUser(user) {
     if (isValid) {
         users.push(user);
         client.connect();
-        client.query('INSERT INTO users (id, email, password, hash, crops) VALUES (' + user.id + ', ' + user.emailAddress + ', ' + user.password + ', ' + user.hash + ', ' + JSON.stringify(user.crops) + ');', (err, res) => {
+        client.query('INSERT INTO users (id, email, password, hash, crops) VALUES (' + user.id + ', \'' + user.emailAddress + '\', \'' + user.password + '\', \'' + user.hash + '\', \'' + JSON.stringify(user.crops) + '\');', (err, res) => {
             if (err) throw err;
             client.end();
         });
         return user.id;
     }
 
-    // Else, return -1;
+    // Else, return -1; 
     else {
         return -1;
     }
@@ -175,9 +181,7 @@ function addCrop(id, crop) {
             }
         });
         client.connect();
-        const queryString = 'INSERT INTO crops VALUES (' + newCropID + ', ' + crop.type + ', ' + 'null' + ', ' + crop.plantDate + ', ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');';
-        console.log(queryString);
-        client.query('INSERT INTO crops VALUES (' + newCropID + ', \'' + crop.type + '\', ' + 'null' + ', \'' + crop.plantDate + '\'n, ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');', (err, res) => {
+        client.query('INSERT INTO crops VALUES (' + newCropID + ', \'' + crop.type + '\', ' + 'null' + ', \'' + crop.plantDate + '\', ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');', (err, res) => {
             if (err) throw err;
             client.end();
         });
@@ -220,6 +224,11 @@ function addCrop(id, crop) {
  * @returns {Array} Array of crops
  */
 function getCrops(id) {
+
+    // If the user is new and hasn't been created yet, return empty array.
+    if (id >= users.length) {
+        return [];
+    } 
     
     // Return the user's crops.
     return users[id].crops;
@@ -236,7 +245,9 @@ function deleteCrop(id, crop) {
     let userCrops = users[id].crops;
 
     // Remove the crop from the list.
-    userCrops = userCrops.filter((e) => e.type !== crop.type);
+    userCrops = userCrops.filter(function(e) {
+        return e.type !== crop;
+    });
 
     // Reset the user's crops property.
     users[id].crops = userCrops;

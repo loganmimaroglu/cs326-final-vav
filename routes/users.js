@@ -41,6 +41,8 @@ router
             page = renderCrops[0].type;
         }
 
+        console.log(req.user);
+
         res.render('users/dashboard', { 'user': req.user, 'id': req.id, 'renderCrops': renderCrops, 'page': page});
 
     })

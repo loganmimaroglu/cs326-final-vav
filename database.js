@@ -148,8 +148,43 @@ function getUser(id) {
  */
 function addCrop(id, crop) {
 
+    // Find out of that crop exists in the crops database.
+    let foundCrop = null;
+    for (let c of crops) {
+        if (c.type === crop.type && c.plant_date === crop.plantDate) {
+            foundCrop = c;
+            break;
+        }
+    }
+
+    // Declare new crop ID variable.
+    let newCropID = null;
+
+    // If we found the crop in the database, use its ID.
+    if (foundCrop) {
+        newCropID = foundCrop.id;
+    }
+    
+    // Else, add it to the crops database and increment the DB size for the ID.
+    else {
+        newCropID = crops.length + 1;
+        const client = new Client({
+            connectionString: url,
+            ssl: {
+                rejectUnauthorized: false
+            }
+        });
+        client.connect();
+        const queryString = 'INSERT INTO crops VALUES (' + newCropID + ', ' + crop.type + ', ' + 'null' + ', ' + crop.plantDate + ', ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');';
+        console.log(queryString);
+        client.query('INSERT INTO crops VALUES (' + newCropID + ', \'' + crop.type + '\', ' + 'null' + ', \'' + crop.plantDate + '\'n, ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');', (err, res) => {
+            if (err) throw err;
+            client.end();
+        });
+    }
+
     // Create new crop from existing information.
-    const newCrop = { id: crops.length + 1, type: crop.type, growth_stages: 'null', plant_date: crop.plantDate, base_temp: 'null', freeze_temp: 'null', location: 'null' };
+    const newCrop = { id: newCropID, type: crop.type, growth_stages: 'null', plant_date: crop.plantDate, base_temp: 'null', freeze_temp: 'null', location: 'null' };
 
     // Get the array of crops for the current user.
     const userCrops = users[id].crops;

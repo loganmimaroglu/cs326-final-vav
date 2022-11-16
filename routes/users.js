@@ -16,7 +16,7 @@ router.get('/new', (req, res) => {
 router.post('/', async (req, res) => {
 
     try {
-        const salt = await bcrypt.genSalt()
+        const salt = await bcrypt.genSalt();
         const hashedPass = await bcrypt.hash(req.body.password, salt);
         const user = { emailAddress: req.body.emailAddress, password: hashedPass };
         const id = database.addUser(user);

@@ -93,7 +93,7 @@ function auth(user) {
     }
 
     // Return their index, or -1.
-    return index;
+    return users[index];
 }
 
 /**

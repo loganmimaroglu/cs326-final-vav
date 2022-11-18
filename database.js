@@ -7,12 +7,14 @@ if (!process.env.DATABASE_URL) {
     secrets = require('./secrets.json');
     url = secrets.url;
 } else {
-    url = process.env.DATABASE_URL;
+    //url = process.env.DATABASE_URL;
+    secrets = require('./secrets.json');
+    url = secrets.url;
 }
 
 const pool = new Pool({
     connectionString: url,
-    max: 1,
+    max: 4,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
     ssl: {

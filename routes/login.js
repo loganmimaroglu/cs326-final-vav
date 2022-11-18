@@ -7,7 +7,7 @@ const router = express.Router();
 // Static Routes
 router.post('/', async (req, res) => {
 
-    let user = database.auth({ emailAddress: req.body.emailAddress, password: req.body.password })
+    let user = database.auth({ emailAddress: req.body.emailAddress, password: req.body.password });
 
     let index = user.id;
 

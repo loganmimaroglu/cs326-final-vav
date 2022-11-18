@@ -1,4 +1,4 @@
-const { Client } = require("pg");
+const { Client, Pool } = require('pg');
 
 // Grab the database URL.
 let secrets;
@@ -8,6 +8,140 @@ if (!process.env.DATABASE_URL) {
     url = secrets.url;
 } else {
     url = process.env.DATABASE_URL;
+}
+
+const pool = new Pool({
+    connectionString: url,
+    max: 1,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+// Start date options are numbers which represent (1 year: 0, 10 years: 1, 20 years: 2, 30 years: 3)
+// Location options are (Amherst, MA US: 0)
+async function getWeatherData(startDate, location) {
+
+    const dataTAVG = {};
+    const dataTMAX = {};
+    const dataTMIN = {};
+    const dataMERG = {};
+
+    // inorder to prevent some kind of query injections since the API is public, we only accept certain input options
+    // so lets check and make sure the inputs are valid
+    if (!Number.isInteger(startDate) || !Number.isInteger(location)) {
+        console.log('Bad input values');
+        return -1;
+    }
+
+    switch(startDate) {
+    case 1:
+        startDate = '2012-01-01';
+        break;
+    case 2:
+        startDate = '2002-01-01';
+        break;
+    case 3:
+        startDate = '1992-01-01';
+        break;
+    default:
+        startDate = '2021-11-03';
+    }
+
+    switch(location) {
+    case 0:
+        location = 'AMHERST, MA US';
+        break;
+    default:
+        startDate = '1992-01-01';
+    }
+
+    const query = `
+    SELECT *
+    FROM weather
+    WHERE date BETWEEN '${startDate}' AND CURRENT_DATE
+    AND name = '${location}';
+    `;
+
+
+    let res;
+    try {
+        const client = await pool.connect();
+        res = await client.query(query);
+        client.release(true);
+    } catch (err) {
+        console.error(err);
+    }
+
+    for (const row of res.rows) {
+        const tmax = row.tmax;
+        const tmin = row.tmin;
+
+        const date = new Date(row.date);
+        const start = new Date(date.getFullYear(), 0, 0);
+        let diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+        let oneDay = 1000 * 60 * 60 * 24;
+        let day = Math.floor(diff / oneDay);
+
+        if (!isNaN(tmax) && !isNaN(tmin)) {
+            const TAVG = Math.round((row.tmax + row.tmin)/2);
+
+            if ((day - 1) in dataTAVG) {
+                dataTAVG[day - 1].push(TAVG);
+            } else {
+                dataTAVG[day - 1] = [TAVG];
+            }
+        }
+
+        if (!isNaN(tmax)) {
+            if ((day - 1) in dataTMAX) {
+                dataTMAX[day - 1].push(tmax);
+            } else {
+                dataTMAX[day - 1] = [tmax];
+            }
+        }
+
+        if (!isNaN(tmin)) {
+            if ((day - 1) in dataTMIN) {
+                dataTMIN[day - 1].push(tmin);
+            } else {
+                dataTMIN[day - 1] = [tmin];
+            }
+        }
+    }
+
+    for (const key in dataTAVG) {
+        let sum = 0;
+        dataTAVG[key].forEach((e) => {
+            sum += e;
+        });
+        let mean = Math.round(sum / dataTAVG[key].length);
+
+        dataTAVG[key] = mean;
+
+        sum = 0;
+        dataTMAX[key].forEach((e) => {
+            sum += e;
+        });
+        mean = Math.round(sum / dataTMAX[key].length);
+
+        dataTMAX[key] = mean;
+
+        sum = 0;
+        dataTMIN[key].forEach((e) => {
+            sum += e;
+        });
+        mean = Math.round(sum / dataTMIN[key].length);
+
+        dataTMIN[key] = mean;
+
+        dataMERG[key] = { TAVG: dataTAVG[key], TMIN: dataTMIN[key], TMAX: dataTMAX[key] };
+    }
+
+    return dataMERG;
+
 }
 
 let users = [];
@@ -130,7 +264,7 @@ function addUser(user) {
         return user.id;
     }
 
-    // Else, return -1; 
+    // Else, return -1;
     else {
         return -1;
     }
@@ -280,3 +414,4 @@ exports.getCrops = getCrops;
 exports.addCrop = addCrop;
 exports.deleteCrop = deleteCrop;
 exports.getUser = getUser;
+exports.getWeatherData = getWeatherData;

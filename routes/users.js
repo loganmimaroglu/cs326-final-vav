@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         const salt = await bcrypt.genSalt();
         const hashedPass = await bcrypt.hash(req.body.password, salt);
         const user = { emailAddress: req.body.emailAddress, password: hashedPass };
-        const id = database.addUser(user);
+        const id =  await database.addUser(user);
         if (id >= 0) {
             res.redirect(`/users/${id}`);
         } else {

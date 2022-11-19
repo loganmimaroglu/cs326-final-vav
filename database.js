@@ -155,59 +155,74 @@ pullDatabase();
 /**
  * Updates the current arrays of users and crops by pulling from their corresponding tables.
  */
-function pullDatabase() {
+async function pullDatabase() {
 
-    // Create the client.
-    const client = new Client({
-        connectionString: url,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
+    // Define the first query.
+    const query1 = `
+    SELECT *
+    FROM users;
+    `;
 
-    // Connect to the database.
-    client.connect();
+    // Await the first query.
+    let res1;
+    try {
+        const client = await pool.connect();
+        res1 = await client.query(query1);
+        client.release(true);
+    } catch (err) {
+        console.error(err);
+    }
 
-    // Query the database for all current users.
-    client.query('SELECT * FROM users;', (err, res) => {
-        if (err) throw err;
-        for (let row of res.rows) {
-            users.push({ id: row.id, emailAddress: row.email, password: row.password, hash: row.hash, crops: JSON.parse(row.crops) });
-        }
-    });
+    // Add the response information to users array.
+    for (let row of res1.rows) {
+        users.push({ id: row.id, emailAddress: row.email, password: row.password, hash: row.hash, crops: JSON.parse(row.crops) });
+    }
 
-    // Query the database for all current crops and fix users array.
-    client.query('SELECT * FROM crops;', (err, res) => {
-        if (err) throw err;
-        for (let row of res.rows) {
-            crops.push(row);
-        }
-        for (let u of users) {
-            const newCrops = [];
-            for (let crop_id of u.crops) {
-                for (let c of crops) {
-                    if (crop_id === c.id) {
-                        newCrops.push(c);
-                        break;
-                    }
+    // Define the second query.
+    const query2 = `
+    SELECT *
+    FROM crops;
+    `;
+
+    // Await the second query.
+    let res2;
+    try {
+        const client = await pool.connect();
+        res2 = await client.query(query2);
+        client.release(true);
+    } catch (err) {
+        console.error(err);
+    }
+
+    // Add the response information to crops array.
+    for (let row of res2.rows) {
+        crops.push(row);
+    }
+
+    // Fix users array to integrate with EJS code.
+    for (let u of users) {
+        const newCrops = [];
+        for (let crop_id of u.crops) {
+            for (let c of crops) {
+                if (crop_id === c.id) {
+                    newCrops.push(c);
+                    break;
                 }
             }
-            while (u.crops.length) {
-                u.crops.pop();
-            }
-            for (let newCrop of newCrops) {
-                u.crops.push(newCrop);
-            }
         }
-        users.sort(function(a, b) {
-            return a.id - b.id;
-        });
-        crops.sort(function(a, b) {
-            return a.id - b.id;
-        });
-        client.end();
+        while (u.crops.length) {
+            u.crops.pop();
+        }
+        for (let newCrop of newCrops) {
+            u.crops.push(newCrop);
+        }
+    }
+    users.sort(function(a, b) {
+        return a.id - b.id;
     });
-
+    crops.sort(function(a, b) {
+        return a.id - b.id;
+    });
 }
 
 /**
@@ -237,7 +252,7 @@ function auth(user) {
  * @param {emailAddress: String, password: String} user the user to be added
  * @returns {number} ID of the user, otherwise -1.
  */
-function addUser(user) {
+async function addUser(user) {
 
     // Flag for whether user is valid.
     let isValid = true;
@@ -247,22 +262,30 @@ function addUser(user) {
     user.hash = 'null';
     user.crops = [];
 
-    // Create the client.
-    const client = new Client({
-        connectionString: url,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
-
     // If user is valid, insert into database and return their ID.
     if (isValid) {
+
+        // Push user into users array.
         users.push(user);
-        client.connect();
-        client.query('INSERT INTO users (id, email, password, hash, crops) VALUES (' + user.id + ', \'' + user.emailAddress + '\', \'' + user.password + '\', \'' + user.hash + '\', \'' + JSON.stringify(user.crops) + '\');', (err, res) => {
-            if (err) throw err;
-            client.end();
-        });
+
+        // Define the query,
+        const query = `
+        INSERT INTO
+        users (id, email, password, hash, crops)
+        VALUES (${user.id}, '${user.emailAddress}', '${user.password}', '${user.hash}', '${JSON.stringify(user.crops)}');
+        `;
+
+        // Await the query.
+        let res;
+        try {
+            const client = await pool.connect();
+            res = await client.query(query);
+            client.release(true);
+        } catch (err) {
+            console.error(err);
+        }
+
+        // Return the user ID.
         return user.id;
     }
 
@@ -288,7 +311,7 @@ function getUser(id) {
  * @param {number} id
  * @param { type: String, plantDate: Number, profitPerAcre: Number, acres: Number } crop
  */
-function addCrop(id, crop) {
+async function addCrop(id, crop) {
 
     // Find out of that crop exists in the crops database.
     let foundCrop = null;
@@ -309,18 +332,25 @@ function addCrop(id, crop) {
     
     // Else, add it to the crops database and increment the DB size for the ID.
     else {
+
+        // Set ID based on new DB size.
         newCropID = crops.length + 1;
-        const client = new Client({
-            connectionString: url,
-            ssl: {
-                rejectUnauthorized: false
-            }
-        });
-        client.connect();
-        client.query('INSERT INTO crops VALUES (' + newCropID + ', \'' + crop.type + '\', ' + 'null' + ', \'' + crop.plantDate + '\', ' + 'null' + ', ' + 'null' + ', ' + 'null' + ');', (err, res) => {
-            if (err) throw err;
-            client.end();
-        });
+
+        // Define the query.
+        const query = `
+        INSERT INTO crops
+        VALUES (${newCropID}, '${crop.type}', null, '${crop.plantDate}', null, null, null);
+        `;
+
+        // Await the query.
+        let res;
+        try {
+            const client = await pool.connect();
+            res = await client.query(query);
+            client.release(true);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     // Create new crop from existing information.
@@ -338,20 +368,21 @@ function addCrop(id, crop) {
         dbCrops.push(c.id);
     }
 
-    // Create the client.
-    const client = new Client({
-        connectionString: url,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
+    // Define the query.
+    const query = `
+    UPDATE users
+    SET crops = '${JSON.stringify(dbCrops)}' WHERE id = ${id};
+    `;
 
-    // Update record in user database.
-    client.connect();
-    client.query('UPDATE users SET crops = \'' + JSON.stringify(dbCrops) + '\' WHERE id = ' + id + ';', (err, res) => {
-        if (err) throw err;
-        client.end();
-    });
+    // Await the query.
+    let res;
+    try {
+        const client = await pool.connect();
+        res = await client.query(query);
+        client.release(true);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 /**
@@ -375,7 +406,7 @@ function getCrops(id) {
  * @param {number} id The ID of the user
  * @param { type: String, plantDate: Number, profitPerAcre: Number, acres: Number } crop
  */
-function deleteCrop(id, crop) {
+async function deleteCrop(id, crop) {
 
     // Get the users list of crops.
     let userCrops = users[id].crops;
@@ -394,20 +425,21 @@ function deleteCrop(id, crop) {
         dbCrops.push(c.id);
     }
 
-    // Create the client.
-    const client = new Client({
-        connectionString: url,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
+    // Define the query.
+    const query = `
+    UPDATE users
+    SET crops = '${JSON.stringify(dbCrops)}' WHERE id = ${id};
+    `;
 
-    // Insert the new data into the users database.
-    client.connect();
-    client.query('UPDATE users SET crops = \'' + JSON.stringify(dbCrops) + '\' WHERE id = ' + id + ';', (err, res) => {
-        if (err) throw err;
-        client.end();
-    });
+    // Await the query.
+    let res;
+    try {
+        const client = await pool.connect();
+        res = await client.query(query);
+        client.release(true);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 exports.auth = auth;

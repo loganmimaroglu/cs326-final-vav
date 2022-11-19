@@ -55,7 +55,7 @@ router
 
     })
     .post((req, res) => {
-        const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate, profitPerAcre: req.body.profitPerAcre, acres: req.body.acres };
+        const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate };
         database.addCrop(req.id, newCrop);
         res.redirect(`/users/${req.id}`);
 

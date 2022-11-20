@@ -7,9 +7,7 @@ if (!process.env.DATABASE_URL) {
     secrets = require('./secrets.json');
     url = secrets.url;
 } else {
-    //url = process.env.DATABASE_URL;
-    secrets = require('./secrets.json');
-    url = secrets.url;
+    url = process.env.DATABASE_URL;
 }
 
 const pool = new Pool({

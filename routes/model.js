@@ -13,7 +13,17 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    const cropArr = req.body;
+    const userID = Number.parseInt(req.body.userID);
+    const crops = req.body.crops;
+
+    console.log(userID);
+    console.log(crops);
+
+    // now we need to get the crops from the user database api
+    let cropArr = await database.getCrops(userID);
+
+    // filter down the crops we actually need to display data for
+    cropArr = cropArr.filter((e) => e.type === crops || crops === 'all');
 
     const datasets = [];
 

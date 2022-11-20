@@ -9,6 +9,7 @@ async function deleteData(id, item) {
 }
 
 async function myFunction(id, item) {
+    renderGraph(id, item);
 
     const sendPackage = {userID: id, crops: item === 'dashboard' ? 'all' : item};
 
@@ -60,4 +61,68 @@ async function myFunction(id, item) {
 
     }
 
+}
+
+async function renderGraph(id, item) {
+    const sendPackage = {userID: id, crops: item === 'dashboard' ? 'all' : item};
+
+    const response = await fetch(window.location.origin + '/model', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendPackage)
+    });
+
+    const data = await response.json();
+
+    const ctx = document.getElementById('myChart');
+    // eslint-disable-next-line no-unused-vars
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            plugins: {
+                tooltip: {
+                    yAlign: 'bottom',
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y + ' GDD';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Accumulated Growing Degree Days'
+                    },
+                    display: true,
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                }
+            },
+            legend: {
+                display: true
+            }
+        }
+    });
 }

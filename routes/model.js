@@ -1,5 +1,6 @@
 const express = require('express');
 const crop = require('../crop.js');
+const database = require('../database.js');
 const router = express.Router();
 
 // return json chart object
@@ -82,6 +83,50 @@ router.post('/', async (req, res) => {
 
     res.send(JSON.stringify(chartData));
 
+});
+
+router.post('/deadlines', async (req, res) => {
+    // confirm we are recieving a json object
+    if (req.header('Content-Type') !== 'application/json') {
+        res.status(500).send('NOT JSON OBJ');
+        return;
+    }
+
+    const userID = Number.parseInt(req.body.userID);
+    const crops = req.body.crops;
+
+    console.log(userID);
+    console.log(crops);
+
+    // now we need to get the crops from the user database api
+    let cropArr = await database.getCrops(userID);
+
+    // filter down the crops we actually need to display data for
+    cropArr = cropArr.filter((e) => e.type === crops || crops === 'all');
+
+    const importantDatesList = [];
+
+    for (let i = 0; i < cropArr.length; i++) {
+        const dates = (await crop.calcGDU(cropArr[i], 0)).importantDates;
+
+        const year = cropArr[i].plant_date.substring(0,4);
+        const month = cropArr[i].plant_date.substring(5,7);
+        const day = cropArr[i].plant_date.substring(8,10);
+
+        const plantDate = new Date(year, month-1, day);
+        // const harvestDate = new Date(plantDate);
+        // harvestDate.setDate(plantDate.getDate() + growthData.importantDates[growthData.importantDates.length - 1].dayNumber);
+        dates.forEach((e) => {
+            const convertedDate = new Date(plantDate);
+            convertedDate.setDate(plantDate.getDate() + e.dayNumber);
+            e.dayNumber = convertedDate.toLocaleDateString();
+        });
+
+        importantDatesList.push({type: cropArr[i].type, dates: dates });
+
+    }
+
+    res.send(importantDatesList);
 });
 
 module.exports = router;

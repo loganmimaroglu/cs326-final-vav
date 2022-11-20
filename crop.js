@@ -13,12 +13,7 @@ async function calcGDU(crop, variation) {
     const month = crop.plant_date.substring(5,7);
     const day = crop.plant_date.substring(8,10);
 
-    console.log(year);
-    console.log(month);
-    console.log(day);
-
     const plantDate = new Date(year, month-1, day);
-    console.log(crop);
     const growthStages = supportedCrops[crop.type].growthStages;
     const baseTemp = supportedCrops[crop.type].baseTemp;
     const freezeTemp = supportedCrops[crop.type].freezeTemp;
@@ -44,10 +39,9 @@ async function calcGDU(crop, variation) {
 
     for (let i = 0; i < 600; i++) {
         let todayWeather = weatherData[((dayNumber - 1) + i) % 365];
-        console.log(todayWeather);
 
         if (todayWeather.TAVG < freezeTemp) {
-            console.log('plant dies');
+            // console.log('plant dies');
         }
 
         // add todays GDU

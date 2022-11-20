@@ -52,4 +52,4 @@ Met in person to brainstorm and design database implementation. Created tables u
 
 ### Justin Szymanski
 
-//TODO
+Met in person to brainstorm and design database implementation. Connected the Heroku database to the codebase and integrated it with existing functions. Modified database functions to be asynchronous using Pool.

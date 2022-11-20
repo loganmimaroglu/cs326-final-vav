@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
-  <body>
+  <body onload="myFunction('<%- locals.id %>', '<%- locals.page %>')" >
 
     <div class="container-fluid bg-light">
         <div class="row flex-nowrap">
@@ -56,7 +56,7 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                  <h1 class="h2 my-3">Crop Profit Projections</h1>
+                  <h1 class="h2 my-3">Crop Growth Projections</h1>
                   <% if (locals.renderCrops.length === 1) { %>
                     <button type="submit-button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].type %>');">Delete</button>
                   <% } %>
@@ -64,26 +64,9 @@
 
                 <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-                <div class="card-group pt-5">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title"><i class="fa fa-fw fa-solid fa-calendar-days icon-cog greeniconcolor"></i>&nbsp;<b>Upcoming Deadlines</b></h5>
-                        <p class="card-text">Your project optimal harvest date for wheat is April 1st.</p>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title"><i class="fa fa-fw fa-solid fa-sack-dollar icon-cog greeniconcolor"></i>&nbsp;<b>Estimated Profits</b></h5>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title"><i class="fa fa-fw fa-solid fa-sun-plant-wilt icon-cog greeniconcolor"></i>&nbsp;<b>Forecast</b></h5>
-                        <p class="card-text">Current climate conditions remain within historical averages.</p>
-                      </div>
-                    </div>
-                  </div>
+                <div class="card-group pt-5" id="card-group">
+                    
+                </div>
               </main>
 
         </div>
@@ -92,80 +75,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      const dataToSend = '<%- JSON.stringify(locals.renderCrops) %>';
-
-      async function postData(url = '', data = {}) {
-          const response = await fetch(url, {
-              method: 'POST',
-              mode: 'cors',
-              cache: 'no-cache',
-              credentials: 'same-origin',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              redirect: 'follow',
-              referrerPolicy: 'no-referrer',
-              body: data
-          });
-          return response.json();
-      }
-
-      postData('/model', dataToSend)
-        .then((data) => {
-          const ctx = document.getElementById('myChart');
-          // eslint-disable-next-line no-unused-vars
-          const myChart = new Chart(ctx, {
-              type: 'line',
-              data: data,
-              options: {
-                  plugins: {
-                      tooltip: {
-                          yAlign: 'bottom',
-                          callbacks: {
-                              label: function(context) {
-                                  let label = context.dataset.label || '';
-
-                                  if (label) {
-                                      label += ': ';
-                                  }
-                                  if (context.parsed.y !== null) {
-                                      label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-                                  }
-                                  return label;
-                              }
-                          }
-                      }
-                  },
-                  scales: {
-                      xAxis: {
-                          display: true,
-                          grid: {
-                              display: false,
-                              drawBorder: false
-                          },
-                      },
-                      yAxis: {
-                          display: true,
-                          grid: {
-                              display: false,
-                              drawBorder: false
-                          },
-                          ticks: {
-                              callback: function(value, index, ticks) {
-                                  return '$' + value;
-                              }
-                          }
-                      }
-                  },
-                  legend: {
-                      display: true
-                  }
-              }
-          });
-        });
-
-    </script>
     <script src="/javascript/dashboard.js"></script>
   </body>
 </html>

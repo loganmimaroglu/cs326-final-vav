@@ -23,6 +23,29 @@ Crops table
 | freeze_temp   | integer   | temp were plant stops growing   |
 | location      | String    | location of crop                |
 
+## Database Example Documents
+
+```plaintext
+weather table
+{
+    station: text, // The weather station from which the measurement was taken
+    name: text, // The name of the weather station (usually a human-readable location)
+    date: date, // The date in zulu time
+    tmax: integer, // The max tempature for the day
+    tmin: integer // The min tempature for the day
+}
+```
+
+```plaintext
+users table
+TODO
+```
+
+```plaintext
+crops table
+TODO
+```
+
 
 ## Deployment
 

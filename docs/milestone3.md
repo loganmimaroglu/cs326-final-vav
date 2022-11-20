@@ -2,7 +2,7 @@
 
 ## Database Implementation
 
-We implemented a relational database. We created two tables Users and Crops where User.crops refers to plants in Crops.
+We implemented a relational database. We created three tables Users, Crops and Weather.
 
 Users table
 | Column   | Data Type | Description                       |
@@ -15,7 +15,7 @@ Users table
 Crops table
 | Column        | Data Type | Description                     |
 |---------------|-----------|---------------------------------|
-| id            | integer   | unique id of  a plant           |
+| id            | integer   | id of plant, refrenced by users |
 | type          | String    | type of crop                    |
 | growth_stages | json      | detailed info on crop stage     |
 | plant_date    | date      | date of plant                   |
@@ -23,29 +23,14 @@ Crops table
 | freeze_temp   | integer   | temp were plant stops growing   |
 | location      | String    | location of crop                |
 
-## Database Example Documents
-
-```plaintext
-weather table
-{
-    station: text, // The weather station from which the measurement was taken
-    name: text, // The name of the weather station (usually a human-readable location)
-    date: date, // The date in zulu time
-    tmax: integer, // The max tempature for the day
-    tmin: integer // The min tempature for the day
-}
-```
-
-```plaintext
-users table
-TODO
-```
-
-```plaintext
-crops table
-TODO
-```
-
+Weather table
+| Column   | Data Type | Description                                                        |
+|----------|-----------|--------------------------------------------------------------------|
+| station  | String    | weather station from which the measurement was taken               |
+| name     | String    | name of the weather station (usually a human-readable location)    |
+| date     | date      | date in zulu time                                                  |
+| tmax     | integer   | max tempature for the day                                          |
+| tmin     | integer   | min tempature for the day                                          |
 
 ## Deployment
 
@@ -59,11 +44,11 @@ we used a private slack channel to communicate, we also met in person at the lib
 
 ### Logan Mimaroglu
 
-//TODO
+Met in person to brainstorm and design database implementation. Designed and implemented crop growth projection model. Tied front end to this new model. Santized and imported weather data from NOAA into our PostgreSQL database.
 
 ### Stephen Lee
 
-Worked with group to plan out Database implementation. Created tables using DataGrip. Hashed passwords with salt.
+Met in person to brainstorm and design database implementation. Created tables using DataGrip and connected them to Heroku. Implemented hashed passwords using salt and authenticated the passwords.
 
 ### Justin Szymanski
 

@@ -4,7 +4,8 @@
 
 We implemented a relational database. We created three tables Users, Crops and Weather.
 
-Users table
+### Users table
+
 | Column   | Data Type | Description                       |
 |----------|-----------|-----------------------------------|
 | id       | integer   | unique id of a user               |
@@ -12,7 +13,8 @@ Users table
 | hash     | String    | hash password + salt              |
 | crops    | String    | array of plants, refrencing crops |
 
-Crops table
+### Crops table
+
 | Column        | Data Type | Description                     |
 |---------------|-----------|---------------------------------|
 | id            | integer   | id of plant, refrenced by users |
@@ -23,7 +25,8 @@ Crops table
 | freeze_temp   | integer   | temp were plant stops growing   |
 | location      | String    | location of crop                |
 
-Weather table
+### Weather table
+
 | Column   | Data Type | Description                                                        |
 |----------|-----------|--------------------------------------------------------------------|
 | station  | String    | weather station from which the measurement was taken               |
@@ -34,13 +37,13 @@ Weather table
 
 ## Deployment
 
-Website link https://haybale.herokuapp.com/ <br />
-test email: logan@test.com <br />
-test password: password <br />
+Website link https://haybale.herokuapp.com/  
+Test email: logan@test.com  
+Test password: password
 
 ## Breakdown of Division of Labor
 
-we used a private slack channel to communicate, we also met in person at the library
+We used a private slack channel to communicate, we also met in person at the library
 
 ### Logan Mimaroglu
 

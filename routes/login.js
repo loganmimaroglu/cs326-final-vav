@@ -1,28 +1,25 @@
+const database = require('../database.js');
+const bcrypt = require('bcrypt');
+
 const express = require('express');
 const router = express.Router();
 
-const users = [ { emailAddress: 'farmer@test.com', password: 'password', crops: [{ type: 'carrot', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'wheat', plantDate: '20221228', profitPerAcre: 30, acres: 1 }, { type: 'soybean', plantDate: '20221228', profitPerAcre: 30, acres: 1 }] } ];
-
 // Static Routes
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
-    let isValid = false;
-    let index = -1;
+    let user = database.auth({ emailAddress: req.body.emailAddress, password: req.body.password });
 
-    // find the user
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
+    let index = user.id;
 
-        if (user.emailAddress === req.body.emailAddress) {
-            index = i;
-            isValid = true;
+    try {
+        if(!await bcrypt.compare(req.body.password, user.password)) {
+            index = -1;
         }
+    } catch {
+        res.status(500).send();
     }
 
-    console.log(isValid);
-    console.log(index);
-
-    if (isValid) {
+    if ( index >= 0 ) {
         res.redirect(`/users/${index}`);
     } else {
         console.log('error logging in');

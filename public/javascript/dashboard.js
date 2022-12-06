@@ -1,10 +1,12 @@
+const { session } = require("passport");
+
 async function deleteData(id, item) {
 
-    await fetch(window.location.origin + '/users/' + id + '?crop=' + item, {
+    await fetch(window.location.origin + '/users/' + 'dashboard' + '?crop=' + item, {
         method: 'DELETE',
     });
 
-    window.location = id;
+    window.location = 'dashboard';
 
 }
 

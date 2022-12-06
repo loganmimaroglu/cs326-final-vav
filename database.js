@@ -233,6 +233,8 @@ function auth(user) {
     // Return index tracker.
     let index = -1;
 
+    console.log(user);
+
     // Loop through users to find matching email.
     for (let i = 0; i < users.length; i++) {
         const element =  users[i];
@@ -302,6 +304,16 @@ function getUser(id) {
 
     // Return corresponding user.
     return users[id];
+}
+
+/**
+ * Get the current users in the database.
+ * @returns {Array} The users array pulled from the users database.
+ */
+function getUsers() {
+
+    // Return the users array.
+    return users;
 }
 
 /**
@@ -446,4 +458,5 @@ exports.getCrops = getCrops;
 exports.addCrop = addCrop;
 exports.deleteCrop = deleteCrop;
 exports.getUser = getUser;
+exports.getUsers = getUsers;
 exports.getWeatherData = getWeatherData;

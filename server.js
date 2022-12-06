@@ -137,8 +137,9 @@ app.post('/users', checkNotAuthenticated, async (req, res) => {
         const hashedPass = await bcrypt.hash(req.body.password, salt);
         const user = { emailAddress: req.body.emailAddress, password: hashedPass };
         const id =  await database.addUser(user);
+
         if (id >= 0) {
-            res.redirect(`/users/${id}`);
+            res.redirect('/');
         } else {
             console.log('error creating new user');
             res.render('users/new', { emailAddress: req.body.emailAddress, warning: 'Account with email already exists' });

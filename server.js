@@ -89,6 +89,7 @@ app.get('/users/dashboard', checkAuthenticated, (req, res) => {
     }
 
     console.log('rendering dashboard');
+    console.log(page);
 
     // Render the user's dashboard with correct information.
     res.render('users/dashboard', { 'user': req.session.user, 'id': req.session.userID, 'renderCrops': renderCrops, 'page': page});
@@ -96,17 +97,19 @@ app.get('/users/dashboard', checkAuthenticated, (req, res) => {
     console.log('done rendering');
 });
 
-// POST route for /users/id (adding new crops to user dashboards).
-app.post('/users/:id', checkAuthenticated, (req, res) => {
+// POST route for /users/dashboard (adding new crops to user dashboards).
+app.post('/users/dashboard', checkAuthenticated, (req, res) => {
 
-    console.log('post route for /users/:id');
+    console.log('post route for /users/dashboard');
 
     // Create the new crop & add it to database.
     const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate };
-    database.addCrop(req.id, newCrop);
+    database.addCrop(req.user.id, newCrop);
+
+    req.session.user.crops = req.user.crops;
 
     // Redirect to user's dashboard page.
-    res.redirect(`/users/${req.id}`);
+    res.redirect('/users/dashboard');
 });
 
 // DELETE route for /users/id (removing crops from user dashboards).
@@ -116,6 +119,9 @@ app.delete('/users/dashboard', checkAuthenticated, (req, res) => {
 
     // Delete the drop from the database.
     database.deleteCrop(req.session.userID, req.query.crop);
+
+    // Delete the crop from the user object stored in session.
+    req.session.user.crops = req.user.crops;
 
     // Redirect to user's dasboard page.
     res.redirect(303, '/users/dashboard');
@@ -198,9 +204,9 @@ app.post('/users/dashboard/logout', (req, res, next) => {
     });
 });
 
-app.get('/users/:id/add-plant', checkAuthenticated, (req, res) => {
+app.get('/users/dashboard/add-plant', checkAuthenticated, (req, res) => {
 
-    console.log('get route for /users/:id/add-plant');
+    console.log('get route for /users/dashboard/add-plant');
 
     res.render('users/add-plant', { 'user': req.user, 'id': req.params.id });
 });
@@ -367,5 +373,6 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 const { setCartesian } = require('mathjs');
+const { render } = require('ejs');
 
 app.listen(port);

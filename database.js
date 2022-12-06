@@ -323,6 +323,9 @@ function getUsers() {
  */
 async function addCrop(id, crop) {
 
+    console.log(id);
+    console.log(crop);
+
     // Find out of that crop exists in the crops database.
     let foundCrop = null;
     for (let c of crops) {

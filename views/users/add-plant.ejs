@@ -26,7 +26,7 @@
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
                             <a class="nav-link <%- locals.page === locals.user.crops[i].type ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
                             <% } %>
-                  
+
                         </li>
                     </ul>
 
@@ -56,12 +56,12 @@
                 </div>
 
                 <form action="/users/dashboard" method="POST" id="login-form" class="needs-validation" novalidate>
-    
+
                     <div>
                       <label for="plantType">Plant Type</label>
                       <input type="text" name="plantType" id="plantType" class="form-control" required autofocus>
                     </div>
-    
+
                     <div class="mt-3">
                       <label for="plantDate">Plant Date</label>
                       <input type="date" name="plantDate" id="plantDate" class="form-control" required>
@@ -86,6 +86,5 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/javascript/dashboard.js"></script>
-    
   </body>
 </html>

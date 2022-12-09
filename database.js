@@ -316,6 +316,9 @@ function getUsers() {
     return users;
 }
 
+
+let isRunning = false;
+
 /**
  * Adds a crop to a users list of crops
  * @param {number} id
@@ -343,7 +346,7 @@ async function addCrop(id, crop) {
         newCropID = foundCrop.id;
 
         // Check if user already has this crop added
-        const userCrops = await getCrops(id);
+        const userCrops = getCrops(id);
         for (let i = 0; i < userCrops.length; i++) {
             if (userCrops[i].id.toString() === foundCrop.id.toString()) {
                 return false;
@@ -420,8 +423,8 @@ function getCrops(id) {
     // If the user is new and hasn't been created yet, return empty array.
     if (id >= users.length) {
         return [];
-    } 
-    
+    }
+
     // Return the user's crops.
     return users[id].crops;
 }

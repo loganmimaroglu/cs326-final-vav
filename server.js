@@ -311,7 +311,19 @@ app.post('/model', async (req, res) => {
             }
         }
 
-        datasets.push({label: cropArr[i].type, data: data, lineTension: .3, backgroundColor: 'transparent', borderColor: colors.pop()});
+        const pattern = /\w+_\w+/;
+        let typeBeutifued = cropArr[i].type
+        if(pattern.test(cropArr[i].type)) {
+            typeBeutifued = typeBeutifued
+                .replace('_', ' ')
+                .split(' ')
+                .map(w => w[0].toUpperCase() + w.slice(1))
+                .join(' ');
+        } else {
+            typeBeutifued = typeBeutifued[0].toUpperCase() + typeBeutifued.slice(1);
+        }
+
+        datasets.push({label: typeBeutifued, data: data, lineTension: .3, backgroundColor: 'transparent', borderColor: colors.pop()});
     }
 
     const chartData = {
@@ -357,7 +369,20 @@ app.post('/model/deadlines', async (req, res) => {
             e.dayNumber = convertedDate.toLocaleDateString();
         });
 
-        importantDatesList.push({type: cropArr[i].type, dates: dates });
+        const pattern = /\w+_\w+/;
+        let typeBeutifued = cropArr[i].type;
+
+        if(pattern.test(cropArr[i].type)) {
+            typeBeutifued = typeBeutifued
+                .replace('_', ' ')
+                .split(' ')
+                .map(w => w[0].toUpperCase() + w.slice(1))
+                .join(' ');
+        } else {
+            typeBeutifued = typeBeutifued[0].toUpperCase() + typeBeutifued.slice(1);
+        }
+
+        importantDatesList.push({type: typeBeutifued, dates: dates });
 
     }
 

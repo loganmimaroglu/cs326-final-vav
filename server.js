@@ -73,23 +73,26 @@ app.get('/users/dashboard', checkAuthenticated, (req, res) => {
     let renderCrops = database.getCrops(req.session.userID);
     let page = '';
 
-    console.log(renderCrops);
-
+    let renderCrops2 = NaN;
     if (req.query.crop !== undefined) {
-        renderCrops = renderCrops.filter((e) =>  e.type === req.query.crop);
+        renderCrops2 = renderCrops.filter((e) =>  e.type === req.query.crop);
     }
 
-    console.log(renderCrops);
+    console.log(renderCrops2);
 
     // Set page variable.
     if (req.query.crop === undefined) {
         page = 'dashboard';
     } else {
-        page = renderCrops[0].type;
+        page = renderCrops2[0].type;
     }
 
     console.log('rendering dashboard');
     console.log(page);
+
+    console.log(renderCrops);
+
+    console.log(req.session.user.crops);
 
     // Render the user's dashboard with correct information.
     res.render('users/dashboard', { 'user': req.session.user, 'id': req.session.userID, 'renderCrops': renderCrops, 'page': page});
@@ -98,13 +101,13 @@ app.get('/users/dashboard', checkAuthenticated, (req, res) => {
 });
 
 // POST route for /users/dashboard (adding new crops to user dashboards).
-app.post('/users/dashboard', checkAuthenticated, (req, res) => {
+app.post('/users/dashboard', checkAuthenticated, async (req, res) => {
 
     console.log('post route for /users/dashboard');
 
     // Create the new crop & add it to database.
     const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate };
-    database.addCrop(req.user.id, newCrop);
+    await database.addCrop(req.user.id, newCrop);
 
     req.session.user.crops = req.user.crops;
 
@@ -113,12 +116,12 @@ app.post('/users/dashboard', checkAuthenticated, (req, res) => {
 });
 
 // DELETE route for /users/id (removing crops from user dashboards).
-app.delete('/users/dashboard', checkAuthenticated, (req, res) => {
+app.delete('/users/dashboard', checkAuthenticated, async (req, res) => {
 
     console.log('delete route for /users/dashboard');
 
     // Delete the drop from the database.
-    database.deleteCrop(req.session.userID, req.query.crop);
+    await database.deleteCrop(req.session.userID, req.query.crop);
 
     // Delete the crop from the user object stored in session.
     req.session.user.crops = req.user.crops;

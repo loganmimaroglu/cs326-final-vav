@@ -1,4 +1,4 @@
-const { Client, Pool } = require('pg');
+const { Pool } = require('pg');
 
 // Grab the database URL.
 let secrets;
@@ -301,7 +301,6 @@ async function addUser(user) {
  * @returns { emailAddress: String, crops: Array} The users email address and list of crops.
  */
 function getUser(id) {
-
     // Return corresponding user.
     return users[id];
 }
@@ -396,6 +395,7 @@ async function addCrop(id, crop) {
     } catch (err) {
         console.error(err);
     }
+
 }
 
 /**
@@ -453,6 +453,7 @@ async function deleteCrop(id, crop) {
     } catch (err) {
         console.error(err);
     }
+
 }
 
 exports.auth = auth;

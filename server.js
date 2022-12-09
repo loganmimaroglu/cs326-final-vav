@@ -67,9 +67,9 @@ app.get('/users/new', checkNotAuthenticated, (req, res) => {
 app.get('/users/dashboard', checkAuthenticated, (req, res) => {
 
     console.log('get route for /users/dashboard');
-    console.log(req.session.userID);
 
     // Retrieve user's crops from the database.
+    console.log(req.session.userID);
     let renderCrops = database.getCrops(req.session.userID);
     let page = '';
 
@@ -209,7 +209,9 @@ app.get('/users/dashboard/add-plant', checkAuthenticated, (req, res) => {
 
     console.log('get route for /users/dashboard/add-plant');
 
-    res.render('users/add-plant', { 'user': req.user, 'id': req.params.id });
+    let renderCrops = database.getCrops(req.session.userID);
+
+    res.render('users/add-plant', { 'user': req.user, 'id': req.params.id, 'renderCrops': renderCrops });
 });
 
 app.param('id', (req, res, next, id) => {

@@ -24,7 +24,7 @@
                         </li>
                         <li class="nav-item pill-1">
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
-                            <a class="nav-link <%- locals.page === locals.user.crops[i].type ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
+                            <a class="nav-link <%- locals.page === locals.user.crops[i].id ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].id %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
                             <% } %>
 
                         </li>
@@ -59,7 +59,7 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                   <h1 class="h2 my-3" id="header-inner">Crop Growth Projections</h1>
                   <% if (locals.page !== 'dashboard') { %>
-                    <button type="submit-button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].type %>');">Delete</button>
+                    <button type="submit-button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].id %>');">Delete</button>
                   <% } %>
                 </div>
 

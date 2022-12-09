@@ -1,3 +1,4 @@
+const e = require('express');
 const { Pool } = require('pg');
 
 // Grab the database URL.
@@ -340,8 +341,17 @@ async function addCrop(id, crop) {
     // If we found the crop in the database, use its ID.
     if (foundCrop) {
         newCropID = foundCrop.id;
+
+        // Check if user already has this crop added
+        const userCrops = await getCrops(id);
+        for (let i = 0; i < userCrops.length; i++) {
+            if (userCrops[i].id.toString() === foundCrop.id.toString()) {
+                return false;
+            }
+        }
+
     }
-    
+
     // Else, add it to the crops database and increment the DB size for the ID.
     else {
 
@@ -396,6 +406,8 @@ async function addCrop(id, crop) {
         console.error(err);
     }
 
+    return true;
+
 }
 
 /**
@@ -417,17 +429,20 @@ function getCrops(id) {
 /**
  * Removes a crop from a users list of crops
  * @param {number} id The ID of the user
- * @param { type: String, plantDate: Number, profitPerAcre: Number, acres: Number } crop
+ * @param {number} crop
  */
 async function deleteCrop(id, crop) {
 
     // Get the users list of crops.
     let userCrops = users[id].crops;
 
-    // Remove the crop from the list.
-    userCrops = userCrops.filter(function(e) {
-        return e.type !== crop;
-    });
+    // Remove only the first occurance of the crop
+    for (let i = 0; i < userCrops.length; i++) {
+        if (userCrops[i].id.toString() === crop) {
+            userCrops.splice(i, 1);
+            break;
+        }
+    }
 
     // Reset the user's crops property.
     users[id].crops = userCrops;

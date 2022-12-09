@@ -75,16 +75,16 @@ app.get('/users/dashboard', checkAuthenticated, (req, res) => {
 
     let renderCrops2 = NaN;
     if (req.query.crop !== undefined) {
-        renderCrops2 = renderCrops.filter((e) =>  e.type === req.query.crop);
+        renderCrops = renderCrops.filter((e) =>  e.id.toString() === req.query.crop);
     }
 
-    console.log(renderCrops2);
 
+    console.log(req.query.crop);
     // Set page variable.
     if (req.query.crop === undefined) {
         page = 'dashboard';
     } else {
-        page = renderCrops2[0].type;
+        page = renderCrops[0].id;
     }
 
     console.log('rendering dashboard');
@@ -107,18 +107,27 @@ app.post('/users/dashboard', checkAuthenticated, async (req, res) => {
 
     // Create the new crop & add it to database.
     const newCrop = { type: req.body.plantType, plantDate: req.body.plantDate };
-    await database.addCrop(req.user.id, newCrop);
+    const response = await database.addCrop(req.user.id, newCrop);
 
     req.session.user.crops = req.user.crops;
 
-    // Redirect to user's dashboard page.
-    res.redirect('/users/dashboard');
+    if (response === true) {
+        // Redirect to user's dashboard page.
+        res.redirect('/users/dashboard');
+    } else {
+        // Crop already existed or there was an error
+        console.log('Identical plant already associated with users account');
+        res.render('users/add-plant', { 'user': req.user, 'id': req.params.id, 'renderCrops': req.session.user.crops, 'warning':  'Identical crop already exists on your account!'});
+    }
+
 });
 
 // DELETE route for /users/id (removing crops from user dashboards).
 app.delete('/users/dashboard', checkAuthenticated, async (req, res) => {
 
     console.log('delete route for /users/dashboard');
+
+    console.log("DELETE")
 
     // Delete the drop from the database.
     await database.deleteCrop(req.session.userID, req.query.crop);
@@ -242,7 +251,7 @@ app.post('/model', async (req, res) => {
     let cropArr = await database.getCrops(userID);
 
     // filter down the crops we actually need to display data for
-    cropArr = cropArr.filter((e) => e.type === crops || crops === 'all');
+    cropArr = cropArr.filter((e) => e.id.toString() === crops || crops === 'all');
 
     const datasets = [];
 
@@ -324,14 +333,11 @@ app.post('/model/deadlines', async (req, res) => {
     const userID = Number.parseInt(req.body.userID);
     const crops = req.body.crops;
 
-    console.log(userID);
-    console.log(crops);
-
     // now we need to get the crops from the user database api
     let cropArr = await database.getCrops(userID);
 
     // filter down the crops we actually need to display data for
-    cropArr = cropArr.filter((e) => e.type === crops || crops === 'all');
+    cropArr = cropArr.filter((e) => e.id.toString() === crops || crops === 'all');
 
     const importantDatesList = [];
 

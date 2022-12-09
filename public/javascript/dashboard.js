@@ -1,17 +1,6 @@
 const { session } = require("passport");
 
-async function deleteData(id, item) {
-
-    await fetch(window.location.origin + '/users/' + 'dashboard' + '?crop=' + item, {
-        method: 'DELETE',
-    });
-
-    window.location = 'dashboard';
-
-}
-
 async function myFunction(id, item) {
-    renderGraph(id, item);
 
     const sendPackage = {userID: id, crops: item === 'dashboard' ? 'all' : item};
 
@@ -25,8 +14,34 @@ async function myFunction(id, item) {
 
     const data = await response.json();
 
-    console.log(data);
+    if (data.length === 0) {
+        renderWelcome();
+    } else {
+        // User has some crops, display charts
+        renderGraph(id, item);
+        renderDates(id, item, data);
+    }
 
+}
+
+function renderWelcome() {
+    document.getElementById('header-inner').innerText = 'Welcome to Haybal!';
+    const parent = document.getElementById('welcome');
+
+    parent.innerText = 'It doesn\'t look like you\'ve added any crops yet, let\'s get started!';
+
+    const image = document.createElement('img');
+
+    image.classList.add('image-fluid', 'rounded');
+
+    image.setAttribute('alt','Go to the bottom left hand corner of the window, click on your email, and then click on add plant.');
+
+    image.src = window.location.origin + '/images/add-plant-tutorial.gif';
+
+    parent.appendChild(image);
+}
+
+function renderDates(id, item, data) {
     const parent = document.getElementById('card-group');
 
     for (let i = 0; i < data.length; i++) {
@@ -60,9 +75,7 @@ async function myFunction(id, item) {
         card.appendChild(cardBody);
 
         parent.appendChild(card);
-
     }
-
 }
 
 async function renderGraph(id, item) {
@@ -127,4 +140,14 @@ async function renderGraph(id, item) {
             }
         }
     });
+}
+
+async function deleteData(id, item) {
+
+    await fetch(window.location.origin + '/users/' + 'dashboard' + '?crop=' + item, {
+        method: 'DELETE',
+    });
+
+    window.location = 'dashboard';
+
 }

@@ -24,7 +24,8 @@
                         </li>
                         <li class="nav-item pill-1">
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
-                            <a class="nav-link <%- locals.page === locals.user.crops[i].type ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
+                            <a class="nav-link <%- locals.page === locals.user.crops[i].id ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].id %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= 
+                              locals.user.crops[i].type.replace(/_/g," ").split(" ")[0][0].toUpperCase() + locals.user.crops[i].type.replace(/_/g," ").split(" ")[0].substring(1) + (locals.user.crops[i].type.replace(/_/g," ").split(" ")[1] !== undefined ? ' ' + locals.user.crops[i].type.replace(/_/g," ").split(" ")[1][0].toUpperCase() : '') + (locals.user.crops[i].type.replace(/_/g," ").split(" ")[1] !== undefined ? locals.user.crops[i].type.replace(/_/g," ").split(" ")[1].substring(1) : '' ) %> </a>
                             <% } %>
 
                         </li>

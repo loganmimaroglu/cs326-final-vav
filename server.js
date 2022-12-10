@@ -243,6 +243,7 @@ app.post('/model', async (req, res) => {
 
     const userID = Number.parseInt(req.body.userID);
     const crops = req.body.crops;
+    const variance = req.body.variance;
 
     console.log(userID);
     console.log(crops);
@@ -263,7 +264,7 @@ app.post('/model', async (req, res) => {
         const month = cropArr[i].plant_date.substring(5,7);
         const day = cropArr[i].plant_date.substring(8,10);
 
-        const growthData = await crop.calcGDU(cropArr[i], 0);
+        const growthData = await crop.calcGDU(cropArr[i], variance);
 
         const plantDate = new Date(year, month-1, day);
         const harvestDate = new Date(plantDate);
@@ -289,7 +290,7 @@ app.post('/model', async (req, res) => {
     }
 
     for (let i = 0; i < cropArr.length; i++) {
-        const growthData = await crop.calcGDU(cropArr[i], 0);
+        const growthData = await crop.calcGDU(cropArr[i], variance);
 
         const year = cropArr[i].plant_date.substring(0,4);
         const month = cropArr[i].plant_date.substring(5,7);
@@ -344,6 +345,7 @@ app.post('/model/deadlines', async (req, res) => {
 
     const userID = Number.parseInt(req.body.userID);
     const crops = req.body.crops;
+    const variance = req.body.variance;
 
     // now we need to get the crops from the user database api
     let cropArr = await database.getCrops(userID);
@@ -354,7 +356,7 @@ app.post('/model/deadlines', async (req, res) => {
     const importantDatesList = [];
 
     for (let i = 0; i < cropArr.length; i++) {
-        const dates = (await crop.calcGDU(cropArr[i], 0)).importantDates;
+        const dates = (await crop.calcGDU(cropArr[i], variance)).importantDates;
 
         const year = cropArr[i].plant_date.substring(0,4);
         const month = cropArr[i].plant_date.substring(5,7);

@@ -367,6 +367,8 @@ async function addCrop(id, crop) {
         VALUES (${newCropID}, '${crop.type}', null, '${crop.plantDate}', null, null, null);
         `;
 
+        crops.push({ id: newCropID, type: crop.type, growth_stages: 'null', plant_date: crop.plantDate, base_temp: 'null', freeze_temp: 'null', location: 'null' });
+
         // Await the query.
         let res;
         try {

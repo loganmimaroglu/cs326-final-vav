@@ -15,7 +15,7 @@ const pool = new Pool({
     connectionString: url,
     max: 4,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 30000,
     ssl: {
         rejectUnauthorized: false
     }
@@ -48,7 +48,7 @@ async function getWeatherData(startDate, location) {
         startDate = '1992-01-01';
         break;
     default:
-        startDate = '2021-11-03';
+        startDate = '2012-01-01';
     }
 
     switch(location) {
@@ -56,7 +56,7 @@ async function getWeatherData(startDate, location) {
         location = 'AMHERST, MA US';
         break;
     default:
-        startDate = '1992-01-01';
+        location = 'AMHERST, MA US';
     }
 
     const query = `

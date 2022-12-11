@@ -63,7 +63,7 @@ app.get('/users/new', checkNotAuthenticated, (req, res) => {
     res.render('users/new');
 });
 
-// GET route for /users/id (user dashboard pages).
+// GET route for /users/dashboard
 app.get('/users/dashboard', checkAuthenticated, (req, res) => {
 
     console.log('get route for /users/dashboard');

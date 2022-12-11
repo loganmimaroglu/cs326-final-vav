@@ -78,6 +78,8 @@ async function myFunction(id, item) {
 }
 
 function renderWelcome() {
+    document.getElementById('weatherData').style.display='none';
+    document.getElementById('myChart').style.display='none';
     document.getElementById('header-inner').innerText = 'Welcome to Haybal!';
     const parent = document.getElementById('welcome');
 

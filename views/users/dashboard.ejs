@@ -46,7 +46,7 @@
                             </li>
                             <li>
                               <form action="/users/dashboard/logout" method="POST">
-                                <button type="submit" class="dropdown-item">Sign out</a>
+                                <button type="submit" class="dropdown-item">Sign out</button>
                               </form>
                             </li>
                         </ul>
@@ -60,7 +60,7 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                   <h1 class="h2 my-3" id="header-inner">Crop Growth Projections</h1>
                   <% if (locals.page !== 'dashboard') { %>
-                    <button type="submit-button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].id %>');">Delete</button>
+                    <button type="button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].id %>');">Delete</button>
                   <% } %>
                 </div>
 

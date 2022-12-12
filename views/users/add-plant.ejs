@@ -55,11 +55,12 @@
                   <h1 class="h2">Add plant</h1>
                 </div>
 
-                <form action="/users/dashboard" method="POST" id="login-form" class="needs-validation" novalidate>
+                <form action="/users/dashboard" method="POST" id="login-form" class="needs-validation">
 
                     <div>
                       <label for="plantType">Plant Type</label>
                       <select id="plantType" name="plantType" class="form-control" required>
+                        <option value="" disabled selected>Select your option</option>
                         <option value="sweet_corn">Sweet Corn</option>
                         <option value="sanbro_sunflower">Sanbro Sunflowers</option>
                         <option value="cranberries">Cranberries</option>

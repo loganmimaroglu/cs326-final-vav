@@ -20,10 +20,6 @@
         });
 })();
 
-document.getElementById('reset').onclick = function () {
-    window.location = 'reset.html';
-};
-
 document.getElementById('register').onclick = function () {
     window.location = 'users/new';
 };

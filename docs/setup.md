@@ -1,4 +1,12 @@
-# Setup for developement
+# Prod Deployment
+
+Website link https://haybale.herokuapp.com/  
+
+Test email: logan@test.com  
+
+Test password: password
+
+# Dev Deployment
 
 Install all dependencies
 

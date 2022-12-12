@@ -18,12 +18,7 @@ async function calcGDU(crop, variation) {
     const baseTemp = supportedCrops[crop.type].baseTemp;
     const freezeTemp = supportedCrops[crop.type].freezeTemp;
 
-    let weatherData;
-    try {
-        weatherData = await database.getWeatherData(variation, 0);
-    } catch (err) {
-        console.error(err);
-    }
+    const weatherData = await database.getWeatherData(variation, 0);
 
     const start = new Date(plantDate.getFullYear(), 0, 0);
     // compensating for daylight savings time

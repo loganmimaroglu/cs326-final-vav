@@ -20,11 +20,12 @@
 
                     <ul class="nav nav-pills mb-sm-auto px-3 pb-5 flex-column">
                         <li class="nav-item pill-1 pb-5">
-                            <a class="nav-link <%- locals.page === 'dashboard' ? 'active' : ''%>" href="/users/<%= locals.id %>">Overview</a>
+                            <a class="nav-link <%- locals.page === 'dashboard' ? 'active' : ''%>" href="/users/dashboard">Overview</a>
                         </li>
                         <li class="nav-item pill-1">
                           <% for (let i = 0; i < locals.user.crops.length;  i++) { %>
-                            <a class="nav-link <%- locals.page === locals.user.crops[i].type ? 'active' : ''%>" href="/users/<%= locals.id %>?crop=<%= locals.user.crops[i].type %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= locals.user.crops[i].type %> </a>
+                            <a class="nav-link <%- locals.page === locals.user.crops[i].id ? 'active' : ''%>" href="/users/dashboard?crop=<%= locals.user.crops[i].id %>"><i class="fa fa-solid fa-wheat-awn fa-fw"></i>&nbsp; <%= 
+                              locals.user.crops[i].type.replace(/_/g," ").split(" ")[0][0].toUpperCase() + locals.user.crops[i].type.replace(/_/g," ").split(" ")[0].substring(1) + (locals.user.crops[i].type.replace(/_/g," ").split(" ")[1] !== undefined ? ' ' + locals.user.crops[i].type.replace(/_/g," ").split(" ")[1][0].toUpperCase() : '') + (locals.user.crops[i].type.replace(/_/g," ").split(" ")[1] !== undefined ? locals.user.crops[i].type.replace(/_/g," ").split(" ")[1].substring(1) : '' ) %> </a>
                             <% } %>
 
                         </li>
@@ -38,14 +39,15 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li>
-                              <a class="dropdown-item" href="/users/<%= locals.id %>/add-plant">Add plant</a>
+                              <a class="dropdown-item" href="/users/dashboard/add-plant">Add plant</a>
                             </li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                              <a class="dropdown-item" href="/">Sign out</a>
+                              <form action="/users/dashboard/logout" method="POST">
+                                <button type="submit" class="dropdown-item">Sign out</button>
+                              </form>
                             </li>
                         </ul>
                     </div>
@@ -56,16 +58,29 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                  <h1 class="h2 my-3">Crop Growth Projections</h1>
-                  <% if (locals.renderCrops.length === 1) { %>
-                    <button type="submit-button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].type %>');">Delete</button>
+                  <h1 class="h2 my-3" id="header-inner">Crop Growth Projections</h1>
+                  <% if (locals.page !== 'dashboard') { %>
+                    <button type="button" class="btn btn-dark my-3" onclick="deleteData('<%- locals.id %>', '<%- locals.renderCrops[0].id %>');">Delete</button>
                   <% } %>
                 </div>
 
+                <div id="welcome" class="flex-wrap flex-md-nowrap align-items-center"></div>
+
                 <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
+                <div class="dropdown" id="weatherData">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Weather Data Variation
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" id="10y">10 years</a></li>
+                    <li><a class="dropdown-item" href="#" id="20y">20 years</a></li>
+                    <li><a class="dropdown-item" href="#" id="30y">30 years</a></li>
+                  </ul>
+                </div>
+
                 <div class="card-group pt-5" id="card-group">
-                    
+
                 </div>
               </main>
 

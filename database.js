@@ -1,4 +1,5 @@
-const { Client, Pool } = require('pg');
+const e = require('express');
+const { Pool } = require('pg');
 
 // Grab the database URL.
 let secrets;
@@ -14,7 +15,7 @@ const pool = new Pool({
     connectionString: url,
     max: 4,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 30000,
     ssl: {
         rejectUnauthorized: false
     }
@@ -47,7 +48,7 @@ async function getWeatherData(startDate, location) {
         startDate = '1992-01-01';
         break;
     default:
-        startDate = '2021-11-03';
+        startDate = '2012-01-01';
     }
 
     switch(location) {
@@ -55,7 +56,7 @@ async function getWeatherData(startDate, location) {
         location = 'AMHERST, MA US';
         break;
     default:
-        startDate = '1992-01-01';
+        location = 'AMHERST, MA US';
     }
 
     const query = `
@@ -233,6 +234,8 @@ function auth(user) {
     // Return index tracker.
     let index = -1;
 
+    console.log(user);
+
     // Loop through users to find matching email.
     for (let i = 0; i < users.length; i++) {
         const element =  users[i];
@@ -299,10 +302,22 @@ async function addUser(user) {
  * @returns { emailAddress: String, crops: Array} The users email address and list of crops.
  */
 function getUser(id) {
-
     // Return corresponding user.
     return users[id];
 }
+
+/**
+ * Get the current users in the database.
+ * @returns {Array} The users array pulled from the users database.
+ */
+function getUsers() {
+
+    // Return the users array.
+    return users;
+}
+
+
+let isRunning = false;
 
 /**
  * Adds a crop to a users list of crops
@@ -310,6 +325,9 @@ function getUser(id) {
  * @param { type: String, plantDate: Number, profitPerAcre: Number, acres: Number } crop
  */
 async function addCrop(id, crop) {
+
+    console.log(id);
+    console.log(crop);
 
     // Find out of that crop exists in the crops database.
     let foundCrop = null;
@@ -326,8 +344,17 @@ async function addCrop(id, crop) {
     // If we found the crop in the database, use its ID.
     if (foundCrop) {
         newCropID = foundCrop.id;
+
+        // Check if user already has this crop added
+        const userCrops = getCrops(id);
+        for (let i = 0; i < userCrops.length; i++) {
+            if (userCrops[i].id.toString() === foundCrop.id.toString()) {
+                return false;
+            }
+        }
+
     }
-    
+
     // Else, add it to the crops database and increment the DB size for the ID.
     else {
 
@@ -339,6 +366,8 @@ async function addCrop(id, crop) {
         INSERT INTO crops
         VALUES (${newCropID}, '${crop.type}', null, '${crop.plantDate}', null, null, null);
         `;
+
+        crops.push({ id: newCropID, type: crop.type, growth_stages: 'null', plant_date: crop.plantDate, base_temp: 'null', freeze_temp: 'null', location: 'null' });
 
         // Await the query.
         let res;
@@ -381,6 +410,9 @@ async function addCrop(id, crop) {
     } catch (err) {
         console.error(err);
     }
+
+    return true;
+
 }
 
 /**
@@ -393,8 +425,8 @@ function getCrops(id) {
     // If the user is new and hasn't been created yet, return empty array.
     if (id >= users.length) {
         return [];
-    } 
-    
+    }
+
     // Return the user's crops.
     return users[id].crops;
 }
@@ -402,17 +434,20 @@ function getCrops(id) {
 /**
  * Removes a crop from a users list of crops
  * @param {number} id The ID of the user
- * @param { type: String, plantDate: Number, profitPerAcre: Number, acres: Number } crop
+ * @param {number} crop
  */
 async function deleteCrop(id, crop) {
 
     // Get the users list of crops.
     let userCrops = users[id].crops;
 
-    // Remove the crop from the list.
-    userCrops = userCrops.filter(function(e) {
-        return e.type !== crop;
-    });
+    // Remove only the first occurance of the crop
+    for (let i = 0; i < userCrops.length; i++) {
+        if (userCrops[i].id.toString() === crop) {
+            userCrops.splice(i, 1);
+            break;
+        }
+    }
 
     // Reset the user's crops property.
     users[id].crops = userCrops;
@@ -438,6 +473,7 @@ async function deleteCrop(id, crop) {
     } catch (err) {
         console.error(err);
     }
+
 }
 
 exports.auth = auth;
@@ -446,4 +482,5 @@ exports.getCrops = getCrops;
 exports.addCrop = addCrop;
 exports.deleteCrop = deleteCrop;
 exports.getUser = getUser;
+exports.getUsers = getUsers;
 exports.getWeatherData = getWeatherData;

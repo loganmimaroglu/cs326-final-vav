@@ -119,7 +119,7 @@ We implemented a PostgreSQL database. We created three tables Users, Crops and W
 
 ## Authentication
 
-TODO: Stephen
+We used bcrypt for producing salt and hashing. The users password and a randomly generated salt are combined and hashed. Hashed passwords are stored in the database, never the actual password.
 
 ## Divison of Labor
 
@@ -131,7 +131,7 @@ I was responsible for the creation of the `dashboard.html` and `index.html` file
 
 ### Stephen Lee
 
-TODO: Stephen
+Worked with the rest of the team to create the project Wireframe. Implemented forgotten password flow of `forgot.html`, `password.html`, `reset.html`. Implemented single plant views `carrot.html`, `soybean.html`. Worked with group to plan out API. Implemented the dashboard sidebar to dynamically display all plants a user has attached to their account using express js routing and EJS templating. Met in person to brainstorm and design database implementation. Created tables using DataGrip and connected them to Heroku. Implemented hashed passwords using salt and authenticated the passwords.
 
 ### Justin Szymanski
 

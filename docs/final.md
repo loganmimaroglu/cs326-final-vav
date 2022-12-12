@@ -135,7 +135,7 @@ TODO: Stephen
 
 ### Justin Szymanski
 
-TODO: Justin
+I first worked alongside the rest of the team to help create the project wireframe. I was then responsible for the create account page, which included the `register.html` and `register.js` files. I also helped implement the frame for the single plant view page, which again included work on the .html and .js files, and implemented sidebar connectivity to move between these pages. After working with the group to plan out the API, I added functionality for adding/removing plant views to a users account using Express JS routing and EJS templating. I then completed the technical write-up of the software architecture and API. Met in person to brainstorm and design database implementation. Connected the Heroku database to the codebase and integrated it with existing functions. Modified database functions to be asynchronous using Pool. Implemented user authentication and sessions using passport, and integrated it with our existing code.
 
 ## Conclusion
 
